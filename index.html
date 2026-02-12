@@ -3,201 +3,279 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pralancing - Modern Freelancing Platform</title>
+    <title>Pralancing - Advanced Freelancing Platform</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
+        :root {
+            --primary: #0f172a;
+            --secondary: #334155;
+            --accent: #3b82f6;
+            --accent-glow: rgba(59, 130, 246, 0.5);
+            --bg: #020617;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --glass: rgba(15, 23, 42, 0.8);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            scroll-behavior: smooth;
         }
-        
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            color: #333;
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg);
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(147, 51, 234, 0.15) 0%, transparent 40%);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
         }
-        
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0 24px;
         }
-        
+
+        /* Modern Navigation */
         nav {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 1rem 0;
-            position: sticky;
+            position: fixed;
             top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 18px 0;
         }
-        
+
         .nav-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        
+
         .logo {
-            font-size: 2rem;
-            font-weight: bold;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            background: linear-gradient(to right, #60a5fa, #a855f7);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        
+
         .nav-links {
             display: flex;
-            gap: 2rem;
+            gap: 32px;
             list-style: none;
         }
-        
+
         .nav-links a {
             text-decoration: none;
-            color: #333;
+            color: var(--text-dim);
+            font-size: 14px;
             font-weight: 500;
-            transition: color 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
+
         .nav-links a:hover {
-            color: #667eea;
+            color: var(--text-main);
+            text-shadow: 0 0 8px var(--accent-glow);
         }
-        
+
+        /* Hero Section */
         .hero {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 4rem 2rem;
-            margin: 2rem 0;
+            padding: 180px 0 100px;
             text-align: center;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            position: relative;
         }
-        
+
         .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-size: clamp(40px, 8vw, 72px);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            background: linear-gradient(to bottom, #fff, #94a3b8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        
+
         .hero p {
-            font-size: 1.2rem;
-            color: #666;
-            margin-bottom: 2rem;
+            font-size: 18px;
+            color: var(--text-dim);
+            max-width: 600px;
+            margin: 0 auto 40px;
         }
-        
-        .cta-button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-        
-        .cta-button:hover {
-            transform: scale(1.05);
-        }
-        
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-        
-        .feature-card {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-10px);
-        }
-        
-        .feature-card h3 {
-            color: #667eea;
-            margin-bottom: 1rem;
-        }
-        
-        .works-section {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 3rem 2rem;
-            margin: 3rem 0;
-        }
-        
-        .works-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-        
-        .work-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 2rem;
-            border-radius: 15px;
-            transition: transform 0.3s;
-        }
-        
-        .work-card:hover {
-            transform: scale(1.05);
-        }
-        
-        .submission-form {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 3rem 2rem;
-            margin: 3rem 0;
-        }
-        
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 14px 32px;
+            border-radius: 12px;
             font-weight: 600;
-            color: #333;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
         }
-        
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 1rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: border-color 0.3s;
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 4px 20px var(--accent-glow);
         }
-        
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #667eea;
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px var(--accent-glow);
         }
-        
-        .footer {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 2rem;
-            margin-top: 3rem;
+
+        /* Features Grid */
+        .section-title {
             text-align: center;
+            margin-bottom: 60px;
         }
-        
-        h2 {
-            color: #667eea;
-            margin-bottom: 2rem;
-            font-size: 2.5rem;
+
+        .section-title h2 {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 80px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 32px;
+            backdrop-filter: blur(8px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .card i {
+            font-size: 24px;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            margin-bottom: 12px;
+            font-size: 20px;
+        }
+
+        .card p {
+            color: var(--text-dim);
+            font-size: 14px;
+        }
+
+        /* Works Catalog */
+        .catalog {
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 32px;
+            padding: 60px 40px;
+            margin-bottom: 100px;
+        }
+
+        .work-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px;
+            border-bottom: 1px solid var(--glass-border);
+            transition: background 0.3s;
+        }
+
+        .work-item:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .work-info h4 {
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+
+        .work-tag {
+            font-size: 12px;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent);
+            padding: 4px 12px;
+            border-radius: 100px;
+            display: inline-block;
+        }
+
+        .price {
+            font-weight: 700;
+            color: #10b981;
+        }
+
+        /* Form Integration Section */
+        .form-section {
+            background: linear-gradient(to bottom right, #1e293b, #0f172a);
+            border-radius: 32px;
+            padding: 80px 40px;
+            text-align: center;
+            margin-bottom: 100px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .form-container {
+            max-width: 800px;
+            margin: 40px auto 0;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Footer */
+        footer {
+            padding: 60px 0;
+            border-top: 1px solid var(--glass-border);
+            text-align: center;
+            color: var(--text-dim);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .social-links a {
+            color: var(--text-dim);
+            font-size: 20px;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--accent);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero h1 { font-size: 48px; }
+            .catalog { padding: 30px 20px; }
+            .work-item { flex-direction: column; align-items: flex-start; gap: 16px; }
         }
     </style>
 </head>
@@ -205,130 +283,112 @@
     <nav>
         <div class="container">
             <div class="nav-content">
-                <div class="logo">Pralancing</div>
+                <div class="logo">Pralancing.</div>
                 <ul class="nav-links">
                     <li><a href="#home">Home</a></li>
-                    <li><a href="#works">Available Works</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#catalog">Catalog</a></li>
+                    <li><a href="#apply">Apply</a></li>
                     <li><a href="#about">About</a></li>
-                    <li><a href="#submit">Submit Work</a></li>
-                    <li><a href="#contact">Contact</a></li>
                 </ul>
+                <a href="#apply" class="btn btn-primary" style="padding: 10px 20px; font-size: 13px;">Join Now</a>
             </div>
         </div>
     </nav>
 
     <div class="container">
         <section id="home" class="hero">
-            <h1>Welcome to Pralancing</h1>
-            <p>A modern, full-featured freelancing platform for freelancers (Pralancers) to showcase their work, submit proposals, and manage projects</p>
-            <button class="cta-button">Get Started Today</button>
-        </section>
-
-        <section id="features" class="features">
-            <div class="feature-card">
-                <h3>🎯 Niche-Based Opportunities</h3>
-                <p>Find freelance opportunities tailored to your expertise in editing, web development, content creation, and script writing.</p>
-            </div>
-            <div class="feature-card">
-                <h3>👤 Freelancer Profiles</h3>
-                <p>Create comprehensive profiles to showcase your skills, portfolio, and experience to potential clients.</p>
-            </div>
-            <div class="feature-card">
-                <h3>📊 Project Management</h3>
-                <p>Track your projects, submissions, and payments all in one place with our intuitive dashboard.</p>
-            </div>
-            <div class="feature-card">
-                <h3>💰 Secure Payments</h3>
-                <p>Get paid securely and on time with our integrated payment system.</p>
+            <h1>Elevate Your Freelance Career.</h1>
+            <p>The premium ecosystem for digital artists, developers, and writers. Connect with elite projects and scale your creative vision.</p>
+            <div class="hero-actions">
+                <a href="#catalog" class="btn btn-primary">Explore Works</a>
+                <a href="#apply" class="btn" style="color: white; margin-left: 12px; border: 1px solid var(--glass-border);">Apply Now</a>
             </div>
         </section>
 
-        <section id="works" class="works-section">
-            <h2>Available Works</h2>
-            <div class="works-grid">
-                <div class="work-card">
-                    <h3>Video Editing</h3>
-                    <p>Edit engaging videos for social media, YouTube, and commercial projects.</p>
-                    <p><strong>Rate:</strong> $50-200/project</p>
-                </div>
-                <div class="work-card">
-                    <h3>Web Development</h3>
-                    <p>Build modern, responsive websites and web applications.</p>
-                    <p><strong>Rate:</strong> $500-5000/project</p>
-                </div>
-                <div class="work-card">
-                    <h3>Content Writing</h3>
-                    <p>Create compelling blog posts, articles, and marketing copy.</p>
-                    <p><strong>Rate:</strong> $30-150/article</p>
-                </div>
-                <div class="work-card">
-                    <h3>Script Ideas</h3>
-                    <p>Develop creative scripts for videos, podcasts, and presentations.</p>
-                    <p><strong>Rate:</strong> $40-250/script</p>
-                </div>
+        <section id="features" class="grid">
+            <div class="card">
+                <i class="fas fa-bolt"></i>
+                <h3>Smart Matching</h3>
+                <p>AI-driven project recommendations based on your unique skill profile and past performance.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-shield-halved"></i>
+                <h3>Secure Escrow</h3>
+                <p>Advanced payment protection ensuring you get paid for every milestone, guaranteed.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-chart-line"></i>
+                <h3>Growth Tools</h3>
+                <p>Comprehensive analytics to track your earnings, reputation, and market position.</p>
             </div>
         </section>
 
-        <section id="about" class="works-section">
-            <h2>About Freelancer Work</h2>
-            <p style="font-size: 1.1rem; line-height: 1.8; color: #666;">
-                At Pralancing, we connect talented freelancers with exciting opportunities across multiple disciplines. Whether you're a video editor crafting stunning visuals, a web developer building the next big thing, a content writer telling compelling stories, or a creative mind generating innovative script ideas, we have the perfect projects for you.
+        <div id="catalog" class="section-title">
+            <h2>Active Opportunities</h2>
+            <p>Curated list of premium projects available for application.</p>
+        </div>
+
+        <section class="catalog">
+            <div class="work-item">
+                <div class="work-info">
+                    <h4>High-End Video Post-Production</h4>
+                    <span class="work-tag">Editing</span>
+                </div>
+                <span class="price">$1,200 - $3,500</span>
+                <a href="#apply" class="btn" style="padding: 8px 16px; font-size: 12px; border: 1px solid var(--accent); color: var(--accent);">Apply</a>
+            </div>
+            <div class="work-item">
+                <div class="work-info">
+                    <h4>Next.js SaaS Architecture</h4>
+                    <span class="work-tag">Development</span>
+                </div>
+                <span class="price">$4,500 - $8,000</span>
+                <a href="#apply" class="btn" style="padding: 8px 16px; font-size: 12px; border: 1px solid var(--accent); color: var(--accent);">Apply</a>
+            </div>
+            <div class="work-item">
+                <div class="work-info">
+                    <h4>Brand Storytelling & Strategy</h4>
+                    <span class="work-tag">Content</span>
+                </div>
+                <span class="price">$800 - $2,000</span>
+                <a href="#apply" class="btn" style="padding: 8px 16px; font-size: 12px; border: 1px solid var(--accent); color: var(--accent);">Apply</a>
+            </div>
+        </section>
+
+        <section id="apply" class="form-section">
+            <h2>Join the Elite</h2>
+            <p>Complete our comprehensive candidate assessment to unlock premium opportunities.</p>
+            
+            <div class="form-container">
+                <!-- Google Form Integration -->
+                <!-- Replace the URL in src with your actual Google Form URL -->
+                <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfD_Gg_3XN28YQ6j9_9Q_9Q_9Q_9Q_9Q_9Q_9Q_9Q_9Q_9Q/viewform?embedded=true" width="100%" height="800" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+            </div>
+            
+            <p style="margin-top: 24px; font-size: 13px; color: var(--text-dim);">
+                <i class="fas fa-info-circle"></i> Can't see the form? <a href="https://forms.google.com" target="_blank" style="color: var(--accent);">Open in new tab</a>
             </p>
-            <p style="font-size: 1.1rem; line-height: 1.8; color: #666; margin-top: 1rem;">
-                Our platform is designed to make freelancing seamless. Submit your work through our easy-to-use forms, upload your portfolio, and connect with clients looking for your specific skills. We handle the administrative work so you can focus on what you do best - creating exceptional work.
-            </p>
         </section>
 
-        <section id="submit" class="submission-form">
-            <h2>Submit Your Work</h2>
-            <form>
-                <div class="form-group">
-                    <label for="name">Full Name</label>
-                    <input type="text" id="name" placeholder="Enter your full name" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" placeholder="your.email@example.com" required>
-                </div>
-                <div class="form-group">
-                    <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" placeholder="+1 (555) 000-0000" required>
-                </div>
-                <div class="form-group">
-                    <label for="niche">Your Niche</label>
-                    <input type="text" id="niche" placeholder="e.g., Video Editing, Web Development" required>
-                </div>
-                <div class="form-group">
-                    <label for="portfolio">Portfolio URL</label>
-                    <input type="url" id="portfolio" placeholder="https://yourportfolio.com">
-                </div>
-                <div class="form-group">
-                    <label for="work-upload">Upload Your Work</label>
-                    <input type="file" id="work-upload" multiple>
-                </div>
-                <div class="form-group">
-                    <label for="description">Project Description</label>
-                    <textarea id="description" rows="6" placeholder="Tell us about your project and what makes you a great fit..."></textarea>
-                </div>
-                <button type="submit" class="cta-button">Submit Application</button>
-            </form>
-        </section>
-
-        <section id="contact" class="works-section">
-            <h2>Contact Us</h2>
-            <p style="font-size: 1.1rem; color: #666; text-align: center;">
-                Have questions? We're here to help! Reach out to us for any inquiries about projects, payments, or platform features.
-            </p>
-            <div style="text-align: center; margin-top: 2rem;">
-                <p><strong>Email:</strong> contact@pralancing.com</p>
-                <p><strong>Support:</strong> support@pralancing.com</p>
-                <p><strong>Phone:</strong> +1 (555) 123-4567</p>
+        <section id="about" class="section-title" style="margin-bottom: 100px;">
+            <h2>About Pralancing</h2>
+            <div style="max-width: 800px; margin: 0 auto; color: var(--text-dim); text-align: left;">
+                <p>Pralancing is more than just a marketplace; it's a dedicated workspace for the modern digital professional. We focus on high-quality connections, bridging the gap between exceptional talent and visionary clients.</p>
+                <br>
+                <p>Our platform handles everything from vetting and matching to secure payments and dispute resolution, allowing you to focus entirely on your craft. Join thousands of world-class freelancers who have made Pralancing their home for professional growth.</p>
             </div>
         </section>
 
-        <footer class="footer">
-            <p>&copy; 2025 Pralancing. All rights reserved.</p>
-            <p style="margin-top: 1rem; color: #666;">Empowering freelancers worldwide | Built with passion</p>
+        <footer>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+            <p>&copy; 2026 Pralancing Platform. All rights reserved.</p>
+            <p style="font-size: 12px; margin-top: 8px;">Designed for the next generation of digital excellence.</p>
         </footer>
     </div>
 </body>
