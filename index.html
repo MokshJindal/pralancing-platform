@@ -9,168 +9,186 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap');
-        :root { --primary: #fbbf24; --secondary: #f59e0b; --bg: #030712; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: #f9fafb; overflow-x: hidden; }
+        @import url('https://fonts.googleapis.com/css2?family=Marchen&family=Space+Grotesk:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap');
+        :root { --primary: #8b4513; --accent: #ff4500; --bg: #f4e4bc; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #d2b48c; color: #2d1b0a; overflow-x: hidden; margin: 0; }
         h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; }
-        .pra-gradient { background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .glass { background: rgba(17, 24, 39, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); }
-        .battle-card { background: rgba(31, 41, 55, 0.4); border: 1px solid rgba(251, 191, 36, 0.1); transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; }
-        .battle-card:hover { border-color: var(--primary); transform: translateY(-10px) scale(1.02); box-shadow: 0 20px 40px rgba(251, 191, 36, 0.1); }
-        .battle-card::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.05), transparent); transition: 0.5s; }
-        .battle-card:hover::before { left: 100%; }
-        .mesh-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background-image: radial-gradient(circle at 0% 0%, rgba(251, 191, 36, 0.08) 0, transparent 40%), radial-gradient(circle at 100% 100%, rgba(245, 158, 11, 0.08) 0, transparent 40%), radial-gradient(circle at 50% 50%, rgba(17, 24, 39, 1) 0, transparent 100%); }
-        .neon-border { position: relative; }
-        .neon-border::after { content: ''; position: absolute; inset: -1px; background: linear-gradient(45deg, var(--primary), transparent, var(--secondary)); border-radius: inherit; z-index: -1; opacity: 0; transition: 0.3s; }
-        .neon-border:hover::after { opacity: 1; }
-        .btn-shine { position: relative; overflow: hidden; }
-        .btn-shine::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: rgba(255,255,255,0.1); transform: rotate(45deg); transition: 0.5s; left: -150%; }
-        .btn-shine:hover::after { left: 100%; }
-        .typing-cursor::after { content: '|'; animation: blink 0.8s infinite; color: var(--primary); }
-        @keyframes blink { 50% { opacity: 0; } }
-        .hindi-logo { font-size: 2.5rem; font-weight: 800; filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.3)); }
+        /* Ancient Veda Background Theme */
+        .veda-bg { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; 
+            background: 
+                linear-gradient(rgba(210, 180, 140, 0.85), rgba(210, 180, 140, 0.85)),
+                url('https://www.transparenttextures.com/patterns/old-map.png'),
+                radial-gradient(circle at center, #f4e4bc 0%, #d2b48c 100%);
+            background-size: cover;
+        }
+        .veda-bg::after {
+            content: ''; position: absolute; inset: 0;
+            background-image: url('https://img.freepik.com/free-vector/circuit-board-pattern-background_53876-115291.jpg');
+            opacity: 0.05; mix-blend-mode: multiply; pointer-events: none;
+        }
+        .parchment-card { 
+            background: rgba(255, 253, 230, 0.6); 
+            backdrop-filter: blur(10px); 
+            border: 2px solid #8b4513; 
+            box-shadow: 10px 10px 0px rgba(139, 69, 19, 0.1);
+            transition: all 0.4s ease;
+        }
+        .parchment-card:hover { transform: translate(-4px, -4px); box-shadow: 15px 15px 0px rgba(139, 69, 19, 0.2); }
+        .ancient-logo { 
+            font-size: 3rem; font-weight: 900; color: #8b4513; 
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1); 
+            display: inline-block; position: relative;
+        }
+        .ancient-logo::after {
+            content: 'प्र'; position: absolute; top: -10px; left: 0; font-size: 4rem; opacity: 0.15; pointer-events: none;
+        }
+        .btn-ancient { 
+            background: #8b4513; color: #f4e4bc; border-radius: 4px; 
+            font-weight: 800; padding: 12px 24px; text-transform: uppercase; 
+            letter-spacing: 1px; transition: 0.3s;
+        }
+        .btn-ancient:hover { background: #ff4500; transform: scale(1.05); }
+        .text-ancient-gold { background: linear-gradient(135deg, #8b4513 0%, #ff4500 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .divider { height: 4px; background: repeating-linear-gradient(90deg, #8b4513, #8b4513 10px, transparent 10px, transparent 20px); width: 100px; margin: 20px auto; }
     </style>
 </head>
 <body>
-    <div class="mesh-bg"></div>
-    <nav class="fixed top-0 w-full z-50 glass py-4 px-8 border-b border-white/5">
+    <div class="veda-bg"></div>
+    <nav class="fixed top-0 w-full z-50 py-6 px-10 border-b border-brown-900/10 bg-[#f4e4bc]/80 backdrop-blur-md">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center space-x-3 group cursor-pointer">
-                <span class="hindi-logo text-amber-500 group-hover:scale-110 transition-transform">प्र</span>
-                <span class="text-2xl font-black tracking-tighter">EARN</span>
+            <div class="flex items-center space-x-4">
+                <span class="ancient-logo">प्र</span>
+                <span class="text-3xl font-black tracking-widest text-[#8b4513]">EARN</span>
             </div>
-            <div class="hidden md:flex items-center space-x-10">
-                <a href="#about" class="text-sm font-semibold text-gray-400 hover:text-amber-500 transition-colors">Propaganda</a>
-                <a href="#contests" class="text-sm font-semibold text-gray-400 hover:text-amber-500 transition-colors">Live Contests</a>
-                <a href="#submit" class="text-sm font-semibold text-gray-400 hover:text-amber-500 transition-colors">Submission</a>
-                <div class="flex items-center space-x-4">
-                    <button class="text-sm font-bold text-white hover:text-amber-500">Login</button>
-                    <button class="bg-amber-500 text-black px-6 py-2.5 rounded-full font-bold text-sm btn-shine shadow-lg shadow-amber-500/20">Join Battle</button>
-                </div>
+            <div class="hidden md:flex items-center space-x-12">
+                <a href="#about" class="text-xs font-black uppercase text-[#8b4513] hover:text-[#ff4500] tracking-[0.2em] transition-colors">Propaganda</a>
+                <a href="#contests" class="text-xs font-black uppercase text-[#8b4513] hover:text-[#ff4500] tracking-[0.2em] transition-colors">Battles</a>
+                <a href="#submit" class="text-xs font-black uppercase text-[#8b4513] hover:text-[#ff4500] tracking-[0.2em] transition-colors">Submission</a>
+                <button class="btn-ancient shadow-lg shadow-black/10">Enter Arena</button>
             </div>
         </div>
     </nav>
-    <section class="pt-40 pb-24 px-8 relative">
+    <section class="pt-48 pb-32 px-10 relative">
         <div class="max-w-7xl mx-auto text-center">
-            <div data-aos="fade-down" class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-500 text-xs font-bold mb-10 uppercase tracking-[0.2em]"><span>🔥 Skill First, Reward Fast</span></div>
-            <h1 data-aos="fade-up" data-aos-delay="100" class="text-6xl md:text-9xl font-black leading-none mb-8">Don't Just Learn. <br><span class="pra-gradient">Earn.</span></h1>
-            <p data-aos="fade-up" data-aos-delay="200" class="text-xl text-gray-400 max-w-2xl mx-auto mb-12 font-medium leading-relaxed">The ultimate arena where <span class="typing-cursor text-white font-bold" id="type-text"></span> meets immediate reward. Prove your skill, win the contest, and earn credibility.</p>
-            <div data-aos="fade-up" data-aos-delay="300" class="flex flex-col sm:flex-row justify-center items-center gap-6">
-                <a href="#contests" class="w-full sm:w-auto px-10 py-5 bg-amber-500 text-black rounded-2xl font-black hover:bg-amber-400 transition-all shadow-2xl shadow-amber-500/30">Enter Contest</a>
-                <a href="#about" class="w-full sm:w-auto px-10 py-5 glass text-white rounded-2xl font-black hover:bg-white/5 transition-all">The "प्र" Vision</a>
+            <div data-aos="fade-down" class="inline-block px-6 py-2 border-2 border-[#8b4513] mb-12 text-xs font-black uppercase tracking-[0.3em] text-[#8b4513]">Ancient Skill • Modern Reward</div>
+            <h1 data-aos="fade-up" data-aos-delay="100" class="text-7xl md:text-9xl font-black leading-none mb-10 text-[#2d1b0a]">LEARN TO <br><span class="text-ancient-gold italic">EARN</span></h1>
+            <p data-aos="fade-up" data-aos-delay="200" class="text-xl text-[#5d3a1a] max-w-2xl mx-auto mb-16 font-bold leading-relaxed border-l-4 border-[#8b4513] pl-8 italic">"Where the fire of intelligence (प्र) meets the arrow of progress. Prove your worth in the open contest."</p>
+            <div data-aos="fade-up" data-aos-delay="300" class="flex flex-col sm:flex-row justify-center items-center gap-8">
+                <a href="#contests" class="btn-ancient text-xl px-12 py-6 rounded-none">Join the Battle</a>
+                <a href="#about" class="px-12 py-6 border-4 border-[#8b4513] text-[#8b4513] font-black uppercase tracking-widest hover:bg-[#8b4513] hover:text-[#f4e4bc] transition-all">The "प्र" Vision</a>
             </div>
         </div>
     </section>
-    <section id="about" class="py-24 px-8 bg-black/20">
+    <section id="about" class="py-32 px-10 bg-[#8b4513]/5 border-y-4 border-[#8b4513]/10">
         <div class="max-w-7xl mx-auto">
-            <div class="grid lg:grid-cols-2 gap-20 items-center">
+            <div class="grid lg:grid-cols-2 gap-24 items-center">
                 <div data-aos="fade-right">
-                    <h2 class="text-4xl md:text-6xl font-black mb-8 leading-tight">The <span class="text-amber-500">प्र</span> Philosophy</h2>
-                    <p class="text-gray-400 text-lg mb-10 leading-relaxed">PREARN bridges the gap between preparation and professional earning. We conduct open contests where ideas are more powerful than resources.</p>
-                    <div class="grid grid-cols-2 gap-6">
-                        <div class="p-6 glass rounded-3xl"><div class="text-amber-500 text-3xl font-black mb-2">प्रtiyogita</div><p class="text-xs text-gray-500 uppercase tracking-widest font-bold">Competition</p></div>
-                        <div class="p-6 glass rounded-3xl"><div class="text-amber-500 text-3xl font-black mb-2">प्रgati</div><p class="text-xs text-gray-500 uppercase tracking-widest font-bold">Progress</p></div>
-                        <div class="p-6 glass rounded-3xl"><div class="text-amber-500 text-3xl font-black mb-2">प्रshikshan</div><p class="text-xs text-gray-500 uppercase tracking-widest font-bold">Training</p></div>
-                        <div class="p-6 glass rounded-3xl"><div class="text-amber-500 text-3xl font-black mb-2">प्रyas</div><p class="text-xs text-gray-500 uppercase tracking-widest font-bold">Effort</p></div>
+                    <h2 class="text-5xl md:text-7xl font-black mb-12 leading-tight text-[#2d1b0a]">The <span class="text-[#ff4500]">प्र</span> Philosophy</h2>
+                    <div class="divider ml-0"></div>
+                    <p class="text-[#5d3a1a] text-xl mb-12 font-bold leading-relaxed">PREARN is a meritocratic hunt where your ideas are more powerful than your resources. We transform ancient preparation into modern earning.</p>
+                    <div class="grid grid-cols-2 gap-8">
+                        <div class="p-8 parchment-card border-l-8 border-l-[#8b4513]"><div class="text-[#8b4513] text-2xl font-black mb-2 uppercase">प्रtiyogita</div><p class="text-[10px] text-brown-900 font-black uppercase tracking-widest">Competition</p></div>
+                        <div class="p-8 parchment-card border-l-8 border-l-[#ff4500]"><div class="text-[#ff4500] text-2xl font-black mb-2 uppercase">प्रgati</div><p class="text-[10px] text-brown-900 font-black uppercase tracking-widest">Progress</p></div>
+                        <div class="p-8 parchment-card border-l-8 border-l-[#8b4513]"><div class="text-[#8b4513] text-2xl font-black mb-2 uppercase">प्रshikshan</div><p class="text-[10px] text-brown-900 font-black uppercase tracking-widest">Training</p></div>
+                        <div class="p-8 parchment-card border-l-8 border-l-[#ff4500]"><div class="text-[#ff4500] text-2xl font-black mb-2 uppercase">प्रyas</div><p class="text-[10px] text-brown-900 font-black uppercase tracking-widest">Effort</p></div>
                     </div>
                 </div>
-                <div data-aos="fade-left" class="relative">
-                    <div class="absolute -inset-10 bg-amber-500/10 blur-[100px] rounded-full"></div>
-                    <div class="glass p-10 rounded-[3rem] border-amber-500/20 relative">
-                        <h3 class="text-2xl font-bold mb-6 italic">"Your time spent here isn't a cost; it's an investment with immediate returns."</h3>
-                        <div class="space-y-6">
-                            <div class="flex items-center space-x-4"><i class="fas fa-check-circle text-amber-500"></i><span class="font-bold">Earn Credibility (Social Proof)</span></div>
-                            <div class="flex items-center space-x-4"><i class="fas fa-check-circle text-amber-500"></i><span class="font-bold">Pure Talent Hunt Mechanism</span></div>
-                            <div class="flex items-center space-x-4"><i class="fas fa-check-circle text-amber-500"></i><span class="font-bold">Preparation for Earning Phase</span></div>
-                        </div>
-                    </div>
+                <div data-aos="fade-left" class="parchment-card p-16 relative">
+                    <div class="absolute top-4 right-4 text-6xl opacity-10 text-[#8b4513]"><i class="fas fa-scroll"></i></div>
+                    <h3 class="text-3xl font-black mb-10 text-[#8b4513]">"Pure Talent Hunt & Skill Rewarding Mechanism."</h3>
+                    <ul class="space-y-8">
+                        <li class="flex items-center space-x-6"><div class="w-12 h-12 bg-[#8b4513] flex items-center justify-center text-white font-black">01</div><span class="font-black text-lg uppercase tracking-wider text-[#2d1b0a]">Earn Credibility (Social Proof)</span></li>
+                        <li class="flex items-center space-x-6"><div class="w-12 h-12 bg-[#ff4500] flex items-center justify-center text-white font-black">02</div><span class="font-black text-lg uppercase tracking-wider text-[#2d1b0a]">Immediate Returns on Investment</span></li>
+                        <li class="flex items-center space-x-6"><div class="w-12 h-12 bg-[#8b4513] flex items-center justify-center text-white font-black">03</div><span class="font-black text-lg uppercase tracking-wider text-[#2d1b0a]">Preparation for Earning Big</span></li>
+                    </ul>
                 </div>
             </div>
         </div>
     </section>
-    <section id="contests" class="py-24 px-8">
+    <section id="contests" class="py-32 px-10">
         <div class="max-w-7xl mx-auto">
-            <div class="flex justify-between items-end mb-16">
-                <div>
-                    <h2 data-aos="fade-right" class="text-4xl md:text-6xl font-black mb-4">Ongoing Battles</h2>
-                    <p data-aos="fade-right" data-aos-delay="100" class="text-gray-500">Prove your skill and win tangible rewards.</p>
-                </div>
+            <div class="text-center mb-24">
+                <h2 data-aos="fade-up" class="text-5xl md:text-8xl font-black mb-6 text-[#2d1b0a]">LIVE BATTLES</h2>
+                <div class="divider"></div>
+                <p data-aos="fade-up" data-aos-delay="100" class="text-[#5d3a1a] font-black uppercase tracking-[0.2em]">Prove your worth. Take the prize.</p>
             </div>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div data-aos="zoom-in" data-aos-delay="100" class="battle-card p-8 rounded-[2.5rem] group">
-                    <div class="flex justify-between items-start mb-8"><div class="w-14 h-14 bg-amber-500/10 rounded-2xl flex items-center justify-center text-amber-500 group-hover:scale-110 transition-all"><i class="fas fa-video text-2xl"></i></div><span class="text-[10px] font-black bg-amber-500 text-black px-3 py-1 rounded-full uppercase">Prize: $500</span></div>
-                    <h4 class="text-2xl font-bold mb-4">Cinematography Master</h4>
-                    <p class="text-gray-400 text-sm mb-8 leading-relaxed">Create a 60-second cinematic story using only handheld shots. Focus on lighting and mood.</p>
-                    <a href="#submit" class="flex items-center text-sm font-bold text-amber-500 hover:translate-x-2 transition-all">Submit Work <i class="fas fa-arrow-right ml-2 text-xs"></i></a>
+            <div class="grid md:grid-cols-3 gap-12">
+                <div data-aos="zoom-in" data-aos-delay="100" class="parchment-card p-10 group h-full flex flex-col">
+                    <div class="flex justify-between items-start mb-10">
+                        <div class="w-16 h-16 bg-[#8b4513]/10 flex items-center justify-center border-2 border-[#8b4513] text-[#8b4513] group-hover:bg-[#8b4513] group-hover:text-white transition-all"><i class="fas fa-video text-2xl"></i></div>
+                        <span class="text-xs font-black bg-[#ff4500] text-white px-4 py-2 uppercase tracking-tighter">Reward: $500</span>
+                    </div>
+                    <h4 class="text-3xl font-black mb-6 text-[#2d1b0a] uppercase tracking-tighter">Cinematography Arena</h4>
+                    <p class="text-[#5d3a1a] text-sm mb-10 font-bold leading-relaxed flex-grow">Capture a 60-second narrative focused on light and shadows. Excellence is the only metric.</p>
+                    <a href="#submit" class="font-black text-sm uppercase tracking-[0.2em] text-[#ff4500] flex items-center hover:translate-x-4 transition-all">Enter Arena <i class="fas fa-long-arrow-alt-right ml-4 text-xl"></i></a>
                 </div>
-                <div data-aos="zoom-in" data-aos-delay="200" class="battle-card p-8 rounded-[2.5rem] group">
-                    <div class="flex justify-between items-start mb-8"><div class="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center text-blue-500 group-hover:scale-110 transition-all"><i class="fas fa-code text-2xl"></i></div><span class="text-[10px] font-black bg-blue-500 text-white px-3 py-1 rounded-full uppercase">Prize: $800</span></div>
-                    <h4 class="text-2xl font-bold mb-4">SaaS UI Challenge</h4>
-                    <p class="text-gray-400 text-sm mb-8 leading-relaxed">Design and code a high-converting dashboard landing page for an AI startup.</p>
-                    <a href="#submit" class="flex items-center text-sm font-bold text-blue-500 hover:translate-x-2 transition-all">Submit Work <i class="fas fa-arrow-right ml-2 text-xs"></i></a>
+                <div data-aos="zoom-in" data-aos-delay="200" class="parchment-card p-10 group h-full flex flex-col">
+                    <div class="flex justify-between items-start mb-10">
+                        <div class="w-16 h-16 bg-[#8b4513]/10 flex items-center justify-center border-2 border-[#8b4513] text-[#8b4513] group-hover:bg-[#8b4513] group-hover:text-white transition-all"><i class="fas fa-code text-2xl"></i></div>
+                        <span class="text-xs font-black bg-[#ff4500] text-white px-4 py-2 uppercase tracking-tighter">Reward: $800</span>
+                    </div>
+                    <h4 class="text-3xl font-black mb-6 text-[#2d1b0a] uppercase tracking-tighter">Veda-UI Challenge</h4>
+                    <p class="text-[#5d3a1a] text-sm mb-10 font-bold leading-relaxed flex-grow">Design a landing page that blends ancient wisdom with modern tech aesthetics.</p>
+                    <a href="#submit" class="font-black text-sm uppercase tracking-[0.2em] text-[#ff4500] flex items-center hover:translate-x-4 transition-all">Enter Arena <i class="fas fa-long-arrow-alt-right ml-4 text-xl"></i></a>
                 </div>
-                <div data-aos="zoom-in" data-aos-delay="300" class="battle-card p-8 rounded-[2.5rem] group">
-                    <div class="flex justify-between items-start mb-8"><div class="w-14 h-14 bg-pink-500/10 rounded-2xl flex items-center justify-center text-pink-500 group-hover:scale-110 transition-all"><i class="fas fa-pen-nib text-2xl"></i></div><span class="text-[10px] font-black bg-pink-500 text-white px-3 py-1 rounded-full uppercase">Prize: $300</span></div>
-                    <h4 class="text-2xl font-bold mb-4">Script/Content Ideas</h4>
-                    <p class="text-gray-400 text-sm mb-8 leading-relaxed">Write a viral video script concept for a FinTech education brand (3-min duration).</p>
-                    <a href="#submit" class="flex items-center text-sm font-bold text-pink-500 hover:translate-x-2 transition-all">Submit Work <i class="fas fa-arrow-right ml-2 text-xs"></i></a>
+                <div data-aos="zoom-in" data-aos-delay="300" class="parchment-card p-10 group h-full flex flex-col">
+                    <div class="flex justify-between items-start mb-10">
+                        <div class="w-16 h-16 bg-[#8b4513]/10 flex items-center justify-center border-2 border-[#8b4513] text-[#8b4513] group-hover:bg-[#8b4513] group-hover:text-white transition-all"><i class="fas fa-pen-nib text-2xl"></i></div>
+                        <span class="text-xs font-black bg-[#ff4500] text-white px-4 py-2 uppercase tracking-tighter">Reward: $300</span>
+                    </div>
+                    <h4 class="text-3xl font-black mb-6 text-[#2d1b0a] uppercase tracking-tighter">Viral Script Duel</h4>
+                    <p class="text-[#5d3a1a] text-sm mb-10 font-bold leading-relaxed flex-grow">Draft a 3-minute script for an elite educational brand. Ideas are weapons.</p>
+                    <a href="#submit" class="font-black text-sm uppercase tracking-[0.2em] text-[#ff4500] flex items-center hover:translate-x-4 transition-all">Enter Arena <i class="fas fa-long-arrow-alt-right ml-4 text-xl"></i></a>
                 </div>
             </div>
         </div>
     </section>
-    <section id="submit" class="py-24 px-8 relative">
+    <section id="submit" class="py-32 px-10 relative">
         <div class="max-w-4xl mx-auto">
-            <div class="text-center mb-16">
-                <h2 data-aos="fade-up" class="text-4xl md:text-6xl font-black mb-4">Submission Portal</h2>
-                <p data-aos="fade-up" data-aos-delay="100" class="text-gray-500 uppercase tracking-widest font-bold text-xs">Prove your worth. Win the prize.</p>
+            <div class="text-center mb-24">
+                <h2 data-aos="fade-up" class="text-5xl md:text-8xl font-black mb-6 text-[#2d1b0a]">OFFER YOUR WORK</h2>
+                <div class="divider"></div>
+                <p data-aos="fade-up" data-aos-delay="100" class="text-[#5d3a1a] font-black uppercase tracking-[0.2em] text-xs">Submission Portal for the Elite</p>
             </div>
-            <div data-aos="fade-up" data-aos-delay="200" class="glass p-12 rounded-[3rem] border-white/10 shadow-2xl">
-                <form class="space-y-8">
-                    <div class="grid md:grid-cols-2 gap-8">
-                        <div class="space-y-3"><label class="text-xs font-black uppercase text-gray-500">Full Name</label><input type="text" placeholder="John Doe" class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 outline-none focus:border-amber-500 transition-all text-white font-medium"></div>
-                        <div class="space-y-3"><label class="text-xs font-black uppercase text-gray-500">Current City</label><input type="text" placeholder="New Delhi" class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 outline-none focus:border-amber-500 transition-all text-white font-medium"></div>
+            <div data-aos="fade-up" data-aos-delay="200" class="parchment-card p-16 shadow-2xl relative">
+                <div class="absolute -top-10 -left-10 text-8xl opacity-10 text-[#8b4513]"><i class="fas fa-stamp"></i></div>
+                <form class="space-y-12">
+                    <div class="grid md:grid-cols-2 gap-12">
+                        <div class="space-y-4"><label class="text-xs font-black uppercase text-[#8b4513] tracking-widest">Contestant Name</label><input type="text" placeholder="Arya" class="w-full bg-[#f4e4bc]/50 border-b-4 border-[#8b4513] px-4 py-4 outline-none focus:bg-[#f4e4bc] transition-all text-[#2d1b0a] font-bold"></div>
+                        <div class="space-y-4"><label class="text-xs font-black uppercase text-[#8b4513] tracking-widest">Current City</label><input type="text" placeholder="Kashi" class="w-full bg-[#f4e4bc]/50 border-b-4 border-[#8b4513] px-4 py-4 outline-none focus:bg-[#f4e4bc] transition-all text-[#2d1b0a] font-bold"></div>
                     </div>
-                    <div class="grid md:grid-cols-2 gap-8">
-                        <div class="space-y-3"><label class="text-xs font-black uppercase text-gray-500">Email Address</label><input type="email" placeholder="john@prearn.com" class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 outline-none focus:border-amber-500 transition-all text-white font-medium"></div>
-                        <div class="space-y-3"><label class="text-xs font-black uppercase text-gray-500">Phone Number</label><input type="tel" placeholder="+91 00000 00000" class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 outline-none focus:border-amber-500 transition-all text-white font-medium"></div>
-                    </div>
-                    <div class="space-y-3"><label class="text-xs font-black uppercase text-gray-500">Upload Work (Highest Quality)</label><div class="w-full bg-white/5 border-2 border-dashed border-white/10 rounded-[2rem] p-10 text-center cursor-pointer hover:border-amber-500/50 transition-all group"><i class="fas fa-cloud-upload-alt text-4xl text-gray-500 group-hover:text-amber-500 mb-4 transition-all"></i><p class="text-sm font-bold text-gray-400 uppercase">Click or Drag to Upload File</p></div></div>
-                    <div class="space-y-3"><label class="text-xs font-black uppercase text-gray-500">Your Remarks / Opinions</label><textarea rows="4" placeholder="Tell us why your idea is powerful..." class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 outline-none focus:border-amber-500 transition-all text-white font-medium"></textarea></div>
-                    <button type="button" class="w-full py-6 bg-amber-500 text-black rounded-[2rem] font-black text-lg hover:bg-amber-400 transition-all shadow-xl shadow-amber-500/20 uppercase tracking-wider">Final Submission</button>
-                    <p class="text-center text-[10px] text-gray-500 font-bold uppercase tracking-widest">We'll contact winners and pay via secure portal.</p>
+                    <div class="grid md:grid-cols-2 gap-12">
+                        <div class="space-y-4"><label class="text-xs font-black uppercase text-[#8b4513] tracking-widest">Email Address</label><input type="email" placeholder="arya@prearn.in" class="w-full bg-[#f4e4bc]/50 border-b-4 border-[#8b4513] px-4 py-4 outline-none focus:bg-[#f4e4bc] transition-all text-[#2d1b0a] font-bold"></div>
+                        <div class="space-y-4"><label class="text-xs font-black uppercase text-[#8b4513] tracking-widest">Mobile Number</label><input type="tel" placeholder="+91 XXXX XXXX" class="w-full bg-[#f4e4bc]/50 border-b-4 border-[#8b4513] px-4 py-4 outline-none focus:bg-[#f4e4bc] transition-all text-[#2d1b0a] font-bold"></div>
+                    </div>Update aesthetic to Ancient Veda / Parchment theme. Added circuit board patterns and stamp iconography.
+                    <div class="space-y-4"><label class="tUpdate aesthetic to Ancient Veda / Parchment theme. Added circuit board patterns and stamp iconography.ext-xs font-black uppercase text-[#8b4513] tracking-widest">Upload Talent (Highest Quality)</label><div class="w-full bg-[#f4e4bc]/50 border-4 border-dashed border-[#8b4513] p-16 text-center cursor-pointer hover:bg-[#f4e4bc] transition-all group"><i class="fas fa-file-export text-5xl text-[#8b4513]/50 group-hover:text-[#ff4500] mb-6 transition-all"></i><p class="text-sm font-black text-[#8b4513] uppercase tracking-widest">Deliver your masterpiece here</p></div></div>
+                    <div class="space-y-4"><label class="text-xs font-black uppercase text-[#8b4513] tracking-widest">The Power of Your Idea (Remarks)</label><textarea rows="5" placeholder="Explain why your idea is supreme..." class="w-full bg-[#f4e4bc]/50 border-b-4 border-[#8b4513] px-4 py-4 outline-none focus:bg-[#f4e4bc] transition-all text-[#2d1b0a] font-bold"></textarea></div>
+                    <button type="button" class="w-full py-8 bg-[#8b4513] text-[#f4e4bc] font-black text-2xl hover:bg-[#ff4500] transition-all shadow-xl uppercase tracking-[0.3em]">Final Deliverance</button>
+                    <p class="text-center text-[10px] text-[#8b4513] font-black uppercase tracking-[0.2em]">We'll contact the chosen ones. Rewards are guaranteed.</p>
                 </form>
             </div>
         </div>
     </section>
-    <footer class="py-20 px-8 border-t border-white/5">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-10">
-            <div><div class="flex items-center space-x-3 mb-4 justify-center md:justify-start"><span class="hindi-logo text-amber-500">प्र</span><span class="text-2xl font-black tracking-tighter">EARN</span></div><p class="text-xs font-bold text-gray-500 uppercase tracking-widest">Where Skill Meets Reward.</p></div>
-            <div class="flex space-x-10 text-xs font-black uppercase tracking-[0.2em] text-gray-500">
-                <a href="#" class="hover:text-amber-500 transition-colors">Instagram</a>
-                <a href="#" class="hover:text-amber-500 transition-colors">Twitter</a>
-                <a href="#" class="hover:text-amber-500 transition-colors">LinkedIn</a>
+    <footer class="py-32 px-10 bg-[#2d1b0a] text-[#f4e4bc]">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-16">
+            <div class="text-center md:text-left">
+                <div class="flex items-center justify-center md:justify-start space-x-6 mb-8">
+                    <span class="text-6xl font-black text-[#ff4500]">प्र</span>
+                    <span class="text-4xl font-black tracking-[0.4em]">EARN</span>
+                </div>
+                <p class="text-xs font-black uppercase tracking-[0.5em] text-[#f4e4bc]/50">Where the fire meets the arrow.</p>
+            </div>
+            <div class="flex space-x-12 text-xs font-black uppercase tracking-[0.3em]">
+                <a href="#" class="hover:text-[#ff4500] transition-colors">Digital Scroll</a>
+                <a href="#" class="hover:text-[#ff4500] transition-colors">The Battle</a>
+                <a href="#" class="hover:text-[#ff4500] transition-colors">Lineage</a>
             </div>
         </div>
-        <div class="max-w-7xl mx-auto mt-20 pt-8 border-t border-white/5 text-center"><p class="text-[10px] font-black uppercase tracking-[0.4em] text-gray-600">© 2026 PREARN PLATFORM. ALL RIGHTS RESERVED.</p></div>
+        <div class="max-w-7xl mx-auto mt-32 pt-12 border-t border-[#f4e4bc]/10 text-center"><p class="text-[10px] font-black uppercase tracking-[0.6em] text-[#f4e4bc]/20">© 2026 PREARN LINEAGE. ANCIENT DECREE APPLIES.</p></div>
     </footer>
     <script>
-        AOS.init({ duration: 1000, once: true, easing: 'ease-out-expo' });
-        const words = ["Pratiyogita", "Pragati", "Pratibha", "Talent"];
-        let i = 0, j = 0, isDeleting = false;
-        function type() {
-            let current = words[i];
-            if (isDeleting) {
-                document.getElementById("type-text").textContent = current.substring(0, j - 1);
-                j--;
-                if (j == 0) { isDeleting = false; i++; if (i == words.length) i = 0; }
-            } else {
-                document.getElementById("type-text").textContent = current.substring(0, j + 1);
-                j++;
-                if (j == current.length) { isDeleting = true; setTimeout(type, 2000); return; }
-            }
-            setTimeout(type, isDeleting ? 40 : 100);
-        }
-        document.addEventListener("DOMContentLoaded", type);
+        AOS.init({ duration: 1200, once: true, easing: 'ease-in-out-sine' });
     </script>
 </body>
 </html>
