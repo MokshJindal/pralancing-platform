@@ -2,13 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Pralancing Platform – PREARN Arena</title>
+    <title>PREARN Pralancing Arena</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Tailwind CDN (optional; remove if you are already using a built build) -->
+    <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Font: Plus Jakarta Sans -->
+    <!-- Plus Jakarta Sans -->
     <link
       rel="preconnect"
       href="https://fonts.googleapis.com"
@@ -23,11 +23,16 @@
       rel="stylesheet"
     />
 
-    <!-- Font Awesome for icons -->
+    <!-- Sanskrit-style Devanagari for headings -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
@@ -47,40 +52,90 @@
         margin: 0;
         font-family: "Plus Jakarta Sans", system-ui, -apple-system,
           BlinkMacSystemFont, "Segoe UI", sans-serif;
-        background-color: var(--bg); /* clean bg, no bow */
+        background-color: var(--bg);
         color: #111827;
       }
 
       .glass {
         background-color: rgba(255, 255, 255, 0.9);
-        backdrop-filter: blur(12px);
+        backdrop-filter: blur(14px);
+      }
+
+      .sanskrit-heading {
+        font-family: "Noto Serif Devanagari", "Plus Jakarta Sans", system-ui,
+          -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        letter-spacing: 0.04em;
+      }
+
+      @keyframes spin-slow {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes arrow-pulse {
+        0% {
+          transform: scaleX(0.7) translate(-50%, -50%);
+          opacity: 0.5;
+        }
+        50% {
+          transform: scaleX(1) translate(-50%, -50%);
+          opacity: 1;
+        }
+        100% {
+          transform: scaleX(0.7) translate(-50%, -50%);
+          opacity: 0.5;
+        }
+      }
+
+      .animate-spin-slow {
+        animation: spin-slow 12s linear infinite;
+      }
+
+      .animate-arrow-pulse {
+        animation: arrow-pulse 1.8s ease-in-out infinite;
       }
     </style>
   </head>
 
   <body class="min-h-screen">
-    <!-- Nav -->
-    <header class="sticky top-0 z-20 bg-[#fef7e5]/80 backdrop-blur border-b border-orange-100">
-      <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+    <!-- NAVBAR -->
+    <header
+      class="sticky top-0 z-20 bg-[#fef7e5]/80 backdrop-blur border-b border-orange-100"
+    >
+      <div
+        class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-3"
+      >
         <div class="flex items-center gap-2">
           <div
             class="h-9 w-9 rounded-2xl bg-orange-600 text-white flex items-center justify-center text-lg font-semibold"
           >
-            P
+            प्र
           </div>
           <div>
-            <p class="text-sm font-semibold tracking-tight">Pralancing Platform</p>
+            <p
+              class="text-sm font-semibold tracking-tight sanskrit-heading text-gray-900"
+            >
+              Pralancing Arena
+            </p>
             <p class="text-xs text-gray-500">by PREARN</p>
           </div>
         </div>
-        <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-700">
+
+        <nav
+          class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-700"
+        >
           <a href="#departments-arena" class="hover:text-orange-600">Arena</a>
           <a href="#about" class="hover:text-orange-600">About</a>
           <a href="#faqs" class="hover:text-orange-600">FAQs</a>
         </nav>
+
         <a
           href="#departments-arena"
-          class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-600 text-sm font-semibold text-white shadow hover:bg-orange-700 transition"
+          class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-600 text-sm font-semibold text-white shadow hover:bg-orange-700 transition"
         >
           Enter Arena
           <i class="fa-solid fa-arrow-right-long text-xs"></i>
@@ -88,23 +143,32 @@
       </div>
     </header>
 
-    <!-- Hero -->
     <main>
+      <!-- HERO -->
       <section class="py-12 md:py-16">
-        <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-10 items-center">
+        <div
+          class="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-10 items-center"
+        >
+          <!-- Left -->
           <div>
-            <p class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-100 text-xs font-semibold text-orange-700 uppercase tracking-wide">
-              PREARN Special
+            <p
+              class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-100 text-xs font-semibold text-orange-700 uppercase tracking-wide"
+            >
+              सांस्कृतिक Pralancing Yuddha
             </p>
-            <h1 class="mt-4 text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-gray-900">
-              Enter the <span class="text-orange-600">Departments Arena</span> and
-              showcase your skills.
+            <h1
+              class="mt-4 text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-gray-900 sanskrit-heading"
+            >
+              Enter the <span class="text-orange-600">Departments Arena</span>
+              and honour your craft.
             </h1>
             <p class="mt-4 text-gray-600 text-sm md:text-base">
-              A modern pralancing battlefield where Brainstorming, Editing, Research,
-              and Web Development fields compete through real-world challenges,
-              guided videos, and structured submissions.
+              A cultural, game-like pralancing experience where Manthan
+              (Brainstorming), Shilp (Editing), Tattva (Research), and Yantra
+              (Web Development) come alive through real briefs, guided videos,
+              and structured submissions.
             </p>
+
             <div class="mt-6 flex flex-wrap items-center gap-4">
               <a
                 href="#departments-arena"
@@ -114,13 +178,14 @@
                 <i class="fa-solid fa-arrow-right-long text-xs"></i>
               </a>
               <p class="text-xs text-gray-500">
-                Win cash prizes, goodies, and a chance to be featured on the platform.
+                Win prasāda: prize money, goodies, and a chance to be featured.
               </p>
             </div>
+
             <div class="mt-6 flex flex-wrap gap-4 text-xs text-gray-500">
               <span class="inline-flex items-center gap-2">
                 <span class="h-2 w-2 rounded-full bg-green-500"></span>
-                Online & hybrid friendly
+                Online + hybrid friendly
               </span>
               <span class="inline-flex items-center gap-2">
                 <i class="fa-solid fa-users text-[11px] text-orange-500"></i>
@@ -128,71 +193,141 @@
               </span>
               <span class="inline-flex items-center gap-2">
                 <i class="fa-solid fa-award text-[11px] text-yellow-500"></i>
-                Certificates & prizes
+                Cultural, aesthetic & skill-based evaluation
               </span>
             </div>
           </div>
 
-          <div class="space-y-4">
-            <div class="glass rounded-3xl p-4 shadow border border-orange-100">
-              <p class="text-xs font-semibold text-orange-600 uppercase tracking-wide">
-                Total Prize Pool
+          <!-- Right: cultural vector / bow aura -->
+          <div class="relative">
+            <!-- soft colour aura -->
+            <div
+              class="absolute inset-0 translate-x-6 md:translate-x-10 translate-y-4 blur-3xl opacity-60 pointer-events-none"
+              style="background: radial-gradient(circle at 30% 20%, #fed7aa, transparent 60%), radial-gradient(circle at 80% 80%, #fecaca, transparent 55%);"
+            ></div>
+
+            <div
+              class="relative glass rounded-3xl p-5 shadow border border-orange-100 overflow-hidden"
+            >
+              <div class="flex items-center justify-between mb-4">
+                <div>
+                  <p
+                    class="text-xs font-semibold text-orange-700 uppercase tracking-wide"
+                  >
+                    Dharmic Work Arena
+                  </p>
+                  <p class="text-sm text-gray-600">
+                    A modern yuddha of skills inspired by sabhas, guilds, and
+                    shastric discipline.
+                  </p>
+                </div>
+                <!-- Bow / chakra style animation -->
+                <div class="relative h-16 w-16">
+                  <div
+                    class="absolute inset-1 rounded-full border-[3px] border-orange-400 border-l-transparent border-b-transparent animate-spin-slow"
+                  ></div>
+                  <div
+                    class="absolute inset-3 rounded-full border border-orange-200"
+                  ></div>
+                  <div
+                    class="absolute left-1/2 top-1/2 w-11 h-[2px] bg-orange-600 -translate-x-1/2 -translate-y-1/2 origin-left animate-arrow-pulse"
+                  ></div>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3 text-xs">
+                <div
+                  class="rounded-2xl bg-orange-50/90 border border-orange-100 p-3"
+                >
+                  <p class="font-semibold text-gray-800 sanskrit-heading">
+                    Dharma of Work
+                  </p>
+                  <p class="text-gray-500 mt-1">
+                    Deliver with clarity, respect, and inner consistency.
+                  </p>
+                </div>
+                <div
+                  class="rounded-2xl bg-orange-50/90 border border-orange-100 p-3"
+                >
+                  <p class="font-semibold text-gray-800 sanskrit-heading">
+                    Yuddha of Skills
+                  </p>
+                  <p class="text-gray-500 mt-1">
+                    Compete with your previous self; leaderboards come later.
+                  </p>
+                </div>
+                <div
+                  class="rounded-2xl bg-orange-50/90 border border-orange-100 p-3"
+                >
+                  <p class="font-semibold text-gray-800 sanskrit-heading">
+                    Sangha
+                  </p>
+                  <p class="text-gray-500 mt-1">
+                    Build a circle of creators rooted in culture and craft.
+                  </p>
+                </div>
+                <div
+                  class="rounded-2xl bg-orange-50/90 border border-orange-100 p-3"
+                >
+                  <p class="font-semibold text-gray-800 sanskrit-heading">
+                    Prasāda
+                  </p>
+                  <p class="text-gray-500 mt-1">
+                    Receive prize money, goodies and visibility as blessings of
+                    effort.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Prize summary card -->
+            <div class="mt-4 glass rounded-2xl p-4 shadow border border-orange-100">
+              <p
+                class="text-xs font-semibold text-orange-600 uppercase tracking-wide"
+              >
+                Total Prasāda Pool
               </p>
-              <p class="mt-1 text-3xl font-semibold text-gray-900">
+              <p class="mt-1 text-2xl font-semibold text-gray-900">
                 ₹12,000
                 <span class="text-sm font-normal text-gray-500">
-                  + goodies & features
+                  + curated goodies
                 </span>
               </p>
               <p class="mt-2 text-xs text-gray-500">
-                Distributed across Brainstorming, Editing, Research, and Web Development
-                arenas.
+                Distributed across Manthan, Shilp, Tattva, and Yantra arenas.
               </p>
-            </div>
-            <div class="grid grid-cols-2 gap-3 text-xs">
-              <div class="glass rounded-2xl p-3 border border-gray-100">
-                <p class="font-semibold text-gray-800">Brainstorming</p>
-                <p class="text-gray-500 mt-1">₹3,000 + goodies</p>
-              </div>
-              <div class="glass rounded-2xl p-3 border border-gray-100">
-                <p class="font-semibold text-gray-800">Editing</p>
-                <p class="text-gray-500 mt-1">₹3,000 + goodies</p>
-              </div>
-              <div class="glass rounded-2xl p-3 border border-gray-100">
-                <p class="font-semibold text-gray-800">Research</p>
-                <p class="text-gray-500 mt-1">₹3,000 + goodies</p>
-              </div>
-              <div class="glass rounded-2xl p-3 border border-gray-100">
-                <p class="font-semibold text-gray-800">Web Dev</p>
-                <p class="text-gray-500 mt-1">₹3,000 + goodies</p>
-              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Departments Arena -->
+      <!-- DEPARTMENTS ARENA -->
       <section
         id="departments-arena"
         class="relative py-16 bg-gradient-to-b from-[#fef7e5] to-[#fde7c5]"
       >
         <div class="max-w-6xl mx-auto px-4">
           <div class="text-center mb-10">
-            <h2 class="text-3xl md:text-4xl font-semibold text-gray-900 tracking-tight">
+            <h2
+              class="text-3xl md:text-4xl font-semibold text-gray-900 tracking-tight sanskrit-heading"
+            >
               Departments Arena
             </h2>
-            <p class="mt-3 text-gray-600 max-w-2xl mx-auto text-sm md:text-base">
-              Choose your department field, click Enter Arena, and unlock brief, video
-              guidelines, prize details, and the official Google Form for submissions.
+            <p
+              class="mt-3 text-gray-600 max-w-2xl mx-auto text-sm md:text-base"
+            >
+              Choose your department field, click Enter Arena, and unlock the
+              brief, video guidance, prasāda details, and the official Google
+              Form for submissions.
             </p>
           </div>
 
           <!-- Department Fields -->
           <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-            <!-- Brainstorming -->
+            <!-- Manthan (Brainstorming) -->
             <button
-              class="group rounded-2xl border border-orange-200 bg-white/80 backdrop-blur hover:bg-orange-50 hover:border-orange-400 transition-all p-4 flex flex-col items-start text-left shadow-sm hover:shadow-md"
-              onclick="selectDepartment('brainstorming')"
+              class="group rounded-2xl border border-orange-200 bg-white/80 backdrop-blur hover:bg-orange-50 hover:border-orange-400 transition-all p-4 flex flex-col items-start text-left shadow-sm hover:shadow-md hover:-translate-y-1"
+              onclick="selectDepartment('manthan')"
             >
               <div class="flex items-center justify-between w-full mb-3">
                 <span
@@ -206,17 +341,24 @@
                   Field
                 </span>
               </div>
-              <h3 class="text-lg font-semibold text-gray-900">Brainstorming</h3>
+              <h3
+                class="text-lg font-semibold text-gray-900 sanskrit-heading"
+              >
+                Manthan (Brainstorming)
+              </h3>
               <p class="mt-2 text-sm text-gray-600">
-                Idea generation, problem-solving, and creative concept building.
+                Churn ideas like a digital chintan sabha: prompts, problem
+                statements, and rapid fire ideation.
               </p>
-              <p class="mt-3 text-xs text-gray-500">Prize pool: ₹3,000</p>
+              <p class="mt-3 text-xs text-gray-500">
+                Prasāda: ₹3,000 + goodies
+              </p>
             </button>
 
-            <!-- Editing -->
+            <!-- Shilp (Editing) -->
             <button
-              class="group rounded-2xl border border-orange-200 bg-white/80 backdrop-blur hover:bg-orange-50 hover:border-orange-400 transition-all p-4 flex flex-col items-start text-left shadow-sm hover:shadow-md"
-              onclick="selectDepartment('editing')"
+              class="group rounded-2xl border border-orange-200 bg-white/80 backdrop-blur hover:bg-orange-50 hover:border-orange-400 transition-all p-4 flex flex-col items-start text-left shadow-sm hover:shadow-md hover:-translate-y-1"
+              onclick="selectDepartment('shilp')"
             >
               <div class="flex items-center justify-between w-full mb-3">
                 <span
@@ -230,17 +372,24 @@
                   Field
                 </span>
               </div>
-              <h3 class="text-lg font-semibold text-gray-900">Editing</h3>
+              <h3
+                class="text-lg font-semibold text-gray-900 sanskrit-heading"
+              >
+                Shilp (Editing)
+              </h3>
               <p class="mt-2 text-sm text-gray-600">
-                Content polishing, proofreading, design and video edits.
+                Refine words, visuals, or videos like a shilpī: precise,
+                patient, and aesthetically rooted.
               </p>
-              <p class="mt-3 text-xs text-gray-500">Prize pool: ₹3,000</p>
+              <p class="mt-3 text-xs text-gray-500">
+                Prasāda: ₹3,000 + goodies
+              </p>
             </button>
 
-            <!-- Research -->
+            <!-- Tattva (Research) -->
             <button
-              class="group rounded-2xl border border-orange-200 bg-white/80 backdrop-blur hover:bg-orange-50 hover:border-orange-400 transition-all p-4 flex flex-col items-start text-left shadow-sm hover:shadow-md"
-              onclick="selectDepartment('research')"
+              class="group rounded-2xl border border-orange-200 bg-white/80 backdrop-blur hover:bg-orange-50 hover:border-orange-400 transition-all p-4 flex flex-col items-start text-left shadow-sm hover:shadow-md hover:-translate-y-1"
+              onclick="selectDepartment('tattva')"
             >
               <div class="flex items-center justify-between w-full mb-3">
                 <span
@@ -254,17 +403,24 @@
                   Field
                 </span>
               </div>
-              <h3 class="text-lg font-semibold text-gray-900">Research</h3>
+              <h3
+                class="text-lg font-semibold text-gray-900 sanskrit-heading"
+              >
+                Tattva (Research)
+              </h3>
               <p class="mt-2 text-sm text-gray-600">
-                Deep dives, data collection, and structured reports.
+                Go to the tattva of things: sources, data, arguments, and clear
+                references.
               </p>
-              <p class="mt-3 text-xs text-gray-500">Prize pool: ₹3,000</p>
+              <p class="mt-3 text-xs text-gray-500">
+                Prasāda: ₹3,000 + goodies
+              </p>
             </button>
 
-            <!-- Web Development -->
+            <!-- Yantra (Web Dev) -->
             <button
-              class="group rounded-2xl border border-orange-200 bg-white/80 backdrop-blur hover:bg-orange-50 hover:border-orange-400 transition-all p-4 flex flex-col items-start text-left shadow-sm hover:shadow-md"
-              onclick="selectDepartment('webdev')"
+              class="group rounded-2xl border border-orange-200 bg-white/80 backdrop-blur hover:bg-orange-50 hover:border-orange-400 transition-all p-4 flex flex-col items-start text-left shadow-sm hover:shadow-md hover:-translate-y-1"
+              onclick="selectDepartment('yantra')"
             >
               <div class="flex items-center justify-between w-full mb-3">
                 <span
@@ -278,11 +434,18 @@
                   Field
                 </span>
               </div>
-              <h3 class="text-lg font-semibold text-gray-900">Web Development</h3>
+              <h3
+                class="text-lg font-semibold text-gray-900 sanskrit-heading"
+              >
+                Yantra (Web Development)
+              </h3>
               <p class="mt-2 text-sm text-gray-600">
-                Frontend, backend, integrations, and full-stack challenges.
+                Craft live yantras on the web: responsive, performant, and
+                thoughtfully designed.
               </p>
-              <p class="mt-3 text-xs text-gray-500">Prize pool: ₹3,000</p>
+              <p class="mt-3 text-xs text-gray-500">
+                Prasāda: ₹3,000 + goodies
+              </p>
             </button>
           </div>
 
@@ -297,7 +460,7 @@
             </button>
           </div>
 
-          <!-- Arena Details Panel -->
+          <!-- Arena Details -->
           <div
             id="arena-details"
             class="mt-10 hidden rounded-3xl border border-orange-200 bg-white/90 backdrop-blur p-6 md:p-8 shadow-lg"
@@ -305,23 +468,23 @@
             <div
               class="flex flex-col md:flex-row md:items-start md:justify-between gap-6"
             >
-              <!-- Left: Text + Prize -->
+              <!-- Text + Prize -->
               <div class="md:w-1/2">
                 <p
                   id="arena-badge"
                   class="inline-flex items-center px-3 py-1 rounded-full bg-orange-100 text-xs font-semibold text-orange-700 uppercase tracking-wide"
                 >
-                  Department Field: Brainstorming
+                  Department Field: Manthan (Brainstorming)
                 </p>
                 <h3
                   id="arena-title"
-                  class="mt-4 text-2xl font-semibold text-gray-900"
+                  class="mt-4 text-2xl font-semibold text-gray-900 sanskrit-heading"
                 >
-                  Brainstorming Arena
+                  Manthan Arena
                 </h3>
                 <p id="arena-desc" class="mt-3 text-sm text-gray-600">
-                  Collaborate on raw ideas, problem statements, and high-level solutions
-                  tailored for real-world projects.
+                  Engage in guided manthan – structured brainstorming rounds
+                  with prompts inspired by real client problems.
                 </p>
 
                 <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
@@ -331,13 +494,13 @@
                     <p
                       class="text-xs font-semibold text-orange-600 uppercase tracking-wide"
                     >
-                      Prize Money
+                      Prasāda (Prize)
                     </p>
                     <p
                       id="arena-prize"
                       class="mt-1 text-lg font-semibold text-gray-900"
                     >
-                      ₹3,000 + goodies
+                      ₹3,000 + curated goodies
                     </p>
                   </div>
                   <div
@@ -349,19 +512,19 @@
                       Mode & Format
                     </p>
                     <p id="arena-format" class="mt-1 text-sm text-gray-700">
-                      Online, individual or team participation (details in form).
+                      Online, culturally themed rounds with clear briefs and
+                      deadlines (details in the Google Form).
                     </p>
                   </div>
                 </div>
               </div>
 
-              <!-- Right: Video + Form -->
+              <!-- Video + Form -->
               <div class="md:w-1/2 space-y-4">
-                <!-- YouTube / Drive Embed -->
+                <!-- Video -->
                 <div
                   class="aspect-video rounded-2xl overflow-hidden border border-gray-200 shadow-sm"
                 >
-                  <!-- Replace src below with your YouTube or Drive preview URL -->
                   <iframe
                     id="arena-video"
                     class="w-full h-full"
@@ -373,7 +536,7 @@
                   ></iframe>
                 </div>
 
-                <!-- Google Form Embed -->
+                <!-- Google Form -->
                 <div
                   class="rounded-2xl border border-gray-200 bg-gray-50/80 p-3"
                 >
@@ -385,7 +548,6 @@
                   <div
                     class="h-72 rounded-xl overflow-hidden border border-gray-200 bg-white"
                   >
-                    <!-- Replace src with your actual Google Form embed link -->
                     <iframe
                       id="arena-form"
                       src="https://docs.google.com/forms/d/e/FORM_ID/viewform?embedded=true"
@@ -402,45 +564,53 @@
         </div>
       </section>
 
-      <!-- About -->
+      <!-- ABOUT -->
       <section id="about" class="py-12">
         <div class="max-w-4xl mx-auto px-4">
-          <h2 class="text-xl font-semibold text-gray-900 mb-3">
+          <h2
+            class="text-xl font-semibold text-gray-900 mb-3 sanskrit-heading"
+          >
             About PREARN Pralancing Arena
           </h2>
           <p class="text-sm text-gray-600">
-            This arena is designed as a sandbox for students and young professionals to
-            experience real freelancing-like work in a guided, gamified environment.
-            Each department field has its own problem statement, resources, and
-            evaluation rubrics, making it easier to explore what you actually enjoy
-            doing.
+            This arena is designed as a cultural yet modern sandbox for
+            students and young professionals to taste real freelancing-like
+            work. Each department field carries its own dharma, problem
+            statement, and evaluation, making it easier to explore what you
+            truly enjoy while staying rooted in aesthetics and values.
           </p>
         </div>
       </section>
 
-      <!-- FAQs -->
+      <!-- FAQS -->
       <section id="faqs" class="pb-16">
         <div class="max-w-4xl mx-auto px-4">
-          <h2 class="text-xl font-semibold text-gray-900 mb-4">FAQs</h2>
+          <h2
+            class="text-xl font-semibold text-gray-900 mb-4 sanskrit-heading"
+          >
+            Frequently Asked Questions
+          </h2>
           <div class="space-y-3 text-sm text-gray-700">
             <details class="glass rounded-2xl p-3 border border-gray-100">
               <summary class="font-semibold cursor-pointer">
-                Can I participate in more than one department?
+                Can I participate in more than one department field?
               </summary>
               <p class="mt-2 text-sm text-gray-600">
-                Yes, you can register for multiple fields, but make sure you can commit
-                to the timelines and submission requirements for each.
+                Yes. You may register for multiple arenas (Manthan, Shilp,
+                Tattva, Yantra) as long as you can honour the timelines and
+                submission requirements for each.
               </p>
             </details>
 
             <details class="glass rounded-2xl p-3 border border-gray-100">
               <summary class="font-semibold cursor-pointer">
-                How will I receive prize money?
+                How will prize money (prasāda) be given?
               </summary>
               <p class="mt-2 text-sm text-gray-600">
-                Prize money will be transferred via UPI/bank transfer after
-                verification. Additional goodies, certificates, or features may be
-                distributed digitally or physically depending on the event.
+                Prasāda will be shared via UPI or bank transfer after
+                verification of winners. Additional goodies and certificates may
+                be sent digitally or physically depending on the event
+                logistics.
               </p>
             </details>
           </div>
@@ -448,56 +618,65 @@
       </section>
     </main>
 
-    <!-- Footer -->
+    <!-- FOOTER -->
     <footer class="border-t border-orange-100 bg-[#fef7e5]">
-      <div class="max-w-6xl mx-auto px-4 py-4 flex flex-wrap items-center justify-between gap-3 text-xs text-gray-500">
+      <div
+        class="max-w-6xl mx-auto px-4 py-4 flex flex-wrap items-center justify-between gap-3 text-xs text-gray-500"
+      >
         <p>© 2026 PREARN · Pralancing Arena</p>
-        <p>Built for experimentation, learning, and real-world skill building.</p>
+        <p>
+          Built for experimentation, cultural aesthetics, and real-world skill
+          building.
+        </p>
       </div>
     </footer>
 
-    <!-- JS for department switching -->
+    <!-- JS: department switching -->
     <script>
       const departmentConfig = {
-        brainstorming: {
-          badge: "Department Field: Brainstorming",
-          title: "Brainstorming Arena",
-          desc: "Collaborate on raw ideas, problem statements, and high-level solutions tailored for real-world projects.",
-          prize: "₹3,000 + goodies",
-          format: "Online, fast-paced idea rounds with structured prompts.",
+        manthan: {
+          badge: "Department Field: Manthan (Brainstorming)",
+          title: "Manthan Arena",
+          desc: "Guided manthan – structured brainstorming rounds with prompts inspired by real client problems.",
+          prize: "₹3,000 + curated goodies",
+          format:
+            "Online, culturally themed rounds with clear briefs and deadlines (details in the Google Form).",
           video: "https://www.youtube.com/embed/dQw4w9WgXcQ", // change
           form: "https://docs.google.com/forms/d/e/FORM_ID/viewform?embedded=true" // change
         },
-        editing: {
-          badge: "Department Field: Editing",
-          title: "Editing Arena",
-          desc: "Showcase your eye for detail with content, design, or video edits.",
-          prize: "₹3,000 + goodies",
-          format: "Online, submit before deadline; evaluation on precision and creativity.",
+        shilp: {
+          badge: "Department Field: Shilp (Editing)",
+          title: "Shilp Arena",
+          desc: "Polish content, designs, or videos with the eye of a shilpī – precise, patient, and aesthetic.",
+          prize: "₹3,000 + curated goodies",
+          format:
+            "Online, submit before the deadline; evaluation focuses on attention to detail and visual harmony.",
           video: "https://www.youtube.com/embed/dQw4w9WgXcQ", // change
           form: "https://docs.google.com/forms/d/e/FORM_ID/viewform?embedded=true" // change
         },
-        research: {
-          badge: "Department Field: Research",
-          title: "Research Arena",
-          desc: "Dive deep into sources and craft well-structured, insight-rich outputs.",
-          prize: "₹3,000 + goodies",
-          format: "Online, structured report + references required.",
+        tattva: {
+          badge: "Department Field: Tattva (Research)",
+          title: "Tattva Arena",
+          desc: "Deep research with clear references, structured arguments, and actionable insights.",
+          prize: "₹3,000 + curated goodies",
+          format:
+            "Online, report or brief-style submissions with citations and supporting material.",
           video: "https://www.youtube.com/embed/dQw4w9WgXcQ", // change
           form: "https://docs.google.com/forms/d/e/FORM_ID/viewform?embedded=true" // change
         },
-        webdev: {
-          badge: "Department Field: Web Development",
-          title: "Web Development Arena",
-          desc: "Build performant, responsive, and clean web experiences.",
-          prize: "₹3,000 + goodies",
-          format: "Online, GitHub repo + deployment link submission.",
+        yantra: {
+          badge: "Department Field: Yantra (Web Development)",
+          title: "Yantra Arena",
+          desc: "Build live yantras on the web: responsive, performant, and thoughtfully designed experiences.",
+          prize: "₹3,000 + curated goodies",
+          format:
+            "Online, GitHub repo + deployment link submission, evaluated on code quality, UX, and performance.",
           video: "https://www.youtube.com/embed/dQw4w9WgXcQ", // change
           form: "https://docs.google.com/forms/d/e/FORM_ID/viewform?embedded=true" // change
         }
       };
 
-      let currentDepartment = "brainstorming";
+      let currentDepartment = "manthan";
 
       function applyDepartment(cfg) {
         document.getElementById("arena-badge").textContent = cfg.badge;
