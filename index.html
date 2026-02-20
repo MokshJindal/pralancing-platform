@@ -1,655 +1,528 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
-<head>
-  <meta charset="UTF-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  />
-  <title>PREARN | Don't Just Learn. Earn.</title>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Pralancing Platform – PREARN Arena</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Tailwind -->
-  <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CDN (optional; remove if you are already using a built build) -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Icons -->
-  <link
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-    rel="stylesheet"
-  />
+    <!-- Font: Plus Jakarta Sans -->
+    <link
+      rel="preconnect"
+      href="https://fonts.googleapis.com"
+    />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
 
-  <!-- AOS Animations -->
-  <link
-    href="https://unpkg.com/aos@2.3.1/dist/aos.css"
-    rel="stylesheet"
-  />
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- Font Awesome for icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
 
-  <style>
-    @import url("https://fonts.googleapis.com/css2?family=Marchen&family=Space+Grotesk:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap");
-
-    :root {
-      --primary: #8b4513;
-      --accent: #ff4500;
-      --bg: #f4e4bc;
-    }
-
-    body {
-      font-family: "Plus Jakarta Sans", sans-serif;
-      background: #d2b48c;
-      color: #2d1b0a;
-      overflow-x: hidden;
-      margin: 0;
-    }
-
-    h1,
-    h2,
-    h3,
-    h4 {
-      font-family: "Space Grotesk", sans-serif;
-    }
-
-    .veda-bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      background: linear-gradient(
-          rgba(210, 180, 140, 0.85),
-          rgba(210, 180, 140, 0.85)
-        ),
-        url("https://www.transparenttextures.com/patterns/old-map.png"),
-        radial-gradient(circle at center, #f4e4bc 0%, #d2b48c 100%);
-      background-size: cover;
-    }
-
-    .veda-bg::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-image: url("https://img.freepik.com/free-vector/circuit-board-pattern-background_53876-115291.jpg");
-      opacity: 0.05;
-      mix-blend-mode: multiply;
-      pointer-events: none;
-    }
-
-    .parchment-card {
-      background: rgba(255, 253, 230, 0.6);
-      backdrop-filter: blur(10px);
-      border: 2px solid #8b4513;
-      box-shadow: 10px 10px 0px rgba(139, 69, 19, 0.1);
-      transition: all 0.4s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .parchment-card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(
-        circle at top left,
-        rgba(255, 255, 255, 0.3),
-        transparent 60%
-      );
-      pointer-events: none;
-    }
-
-    .parchment-card:hover {
-      transform: translate(-4px, -4px);
-      box-shadow: 15px 15px 0px rgba(139, 69, 19, 0.2);
-    }
-
-    .ancient-logo {
-      font-size: 3rem;
-      font-weight: 900;
-      color: #8b4513;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-      display: inline-block;
-      position: relative;
-    }
-
-    .ancient-logo::after {
-      content: "प्र";
-      position: absolute;
-      top: -10px;
-      left: 0;
-      font-size: 4rem;
-      opacity: 0.15;
-      pointer-events: none;
-    }
-
-    .btn-ancient {
-      background: #8b4513;
-      color: #f4e4bc;
-      border-radius: 4px;
-      font-weight: 800;
-      padding: 12px 24px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      transition: 0.3s;
-    }
-
-    .btn-ancient:hover {
-      background: #ff4500;
-      transform: scale(1.05);
-    }
-
-    .text-ancient-gold {
-      background: linear-gradient(135deg, #8b4513 0%, #ff4500 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .divider {
-      height: 4px;
-      background: repeating-linear-gradient(
-        90deg,
-        #8b4513,
-        #8b4513 10px,
-        transparent 10px,
-        transparent 20px
-      );
-      width: 100px;
-      margin: 20px auto;
-    }
-
-    .scroll-indicator {
-      position: absolute;
-      bottom: 40px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      font-size: 10px;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: #5d3a1a;
-    }
-
-    .scroll-indicator .mouse {
-      height: 32px;
-      width: 20px;
-      border-radius: 999px;
-      border: 2px solid #8b4513;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .scroll-indicator .wheel {
-      height: 6px;
-      width: 3px;
-      border-radius: 999px;
-      background: #8b4513;
-      position: absolute;
-      top: 6px;
-      left: 50%;
-      transform: translateX(-50%);
-      animation: wheelMove 1.2s infinite;
-    }
-
-    @keyframes wheelMove {
-      0% {
-        opacity: 0;
-        transform: translate(-50%, 0);
+    <style>
+      :root {
+        --primary: #f97316;
+        --primary-dark: #ea580c;
+        --bg: #fef7e5;
       }
-      30% {
-        opacity: 1;
+
+      * {
+        box-sizing: border-box;
       }
-      100% {
-        opacity: 0;
-        transform: translate(-50%, 14px);
+
+      body {
+        margin: 0;
+        font-family: "Plus Jakarta Sans", system-ui, -apple-system,
+          BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background-color: var(--bg); /* clean bg, no bow */
+        color: #111827;
       }
-    }
 
-    .corner-glyph {
-      position: absolute;
-      font-size: 48px;
-      opacity: 0.06;
-      color: #8b4513;
-      pointer-events: none;
-    }
+      .glass {
+        background-color: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(12px);
+      }
+    </style>
+  </head>
 
-    .corner-glyph.top-left {
-      top: -10px;
-      left: -4px;
-    }
-
-    .corner-glyph.bottom-right {
-      bottom: -14px;
-      right: 4px;
-      transform: rotate(-12deg);
-    }
-  </style>
-</head>
-<body>
-  <div class="veda-bg"></div>
-
-  <!-- NAVBAR -->
-  <nav
-    class="fixed top-0 w-full z-50 py-6 px-10 border-b border-brown-900/10 bg-[#f4e4bc]/80 backdrop-blur-md"
-  >
-    <div class="max-w-7xl mx-auto flex justify-between items-center">
-      <div class="flex items-center space-x-4">
-        <span class="ancient-logo">प्र</span>
-        <span class="text-3xl font-black tracking-widest text-[#8b4513]"
-          >EARN</span
-        >
-      </div>
-      <div class="hidden md:flex items-center space-x-12">
-        <a
-          href="#about"
-          class="text-xs font-black uppercase text-[#8b4513] hover:text-[#ff4500] tracking-[0.2em] transition-colors"
-        >
-          Philosophy
-        </a>
-        <a
-          href="#contests"
-          class="text-xs font-black uppercase text-[#8b4513] hover:text-[#ff4500] tracking-[0.2em] transition-colors"
-        >
-          Battles
-        </a>
-        <a
-          href="#contests"
-          class="btn-ancient shadow-lg shadow-black/10 flex items-center gap-2"
-        >
-          <i class="fa-solid fa-swords"></i>
-          Enter Arena
-        </a>
-      </div>
-    </div>
-  </nav>
-
-  <!-- HERO -->
-  <section class="pt-48 pb-32 px-10 relative">
-    <div class="max-w-7xl mx-auto text-center">
-      <div
-        data-aos="fade-down"
-        class="inline-flex items-center gap-3 px-6 py-2 border-2 border-[#8b4513] mb-12 text-xs font-black uppercase tracking-[0.3em] text-[#8b4513] bg-[#f4e4bc]/60"
-      >
-        <i class="fa-solid fa-scroll"></i>
-        Ancient Skill • Modern Reward
-      </div>
-
-      <h1
-        data-aos="fade-up"
-        data-aos-delay="100"
-        class="text-7xl md:text-9xl font-black leading-none mb-6 text-[#2d1b0a]"
-      >
-        LEARN TO <span class="text-ancient-gold italic">EARN</span>
-      </h1>
-
-      <div
-        data-aos="fade-up"
-        data-aos-delay="150"
-        class="flex items-center justify-center gap-3 mb-10 text-sm font-semibold tracking-[0.2em] uppercase text-[#5d3a1a]"
-      >
-        <span class="h-px w-10 bg-[#8b4513]"></span>
-        <span>From Classroom to Combat Field of Skills</span>
-        <span class="h-px w-10 bg-[#8b4513]"></span>
-      </div>
-
-      <p
-        data-aos="fade-up"
-        data-aos-delay="200"
-        class="text-xl text-[#5d3a1a] max-w-2xl mx-auto mb-12 font-bold leading-relaxed border-l-4 border-[#8b4513] pl-8 italic"
-      >
-        "Where the fire of intelligence (प्र) meets the arrow of progress.
-        Prove your worth in the open contest."
-      </p>
-
-      <div
-        data-aos="fade-up"
-        data-aos-delay="250"
-        class="flex flex-col sm:flex-row justify-center items-center gap-8 mb-10"
-      >
-        <a
-          href="#contests"
-          class="btn-ancient text-xl px-12 py-6 rounded-none flex items-center gap-3"
-        >
-          <i class="fa-solid fa-fire"></i>
-          Join the Battle
-        </a>
-        <a
-          href="#about"
-          class="px-12 py-6 border-4 border-[#8b4513] text-[#8b4513] font-black uppercase tracking-widest hover:bg-[#8b4513] hover:text-[#f4e4bc] transition-all flex items-center gap-3"
-        >
-          <i class="fa-solid fa-book-open"></i>
-          The "प्र" Vision
-        </a>
-      </div>
-
-      <div
-        data-aos="fade-up"
-        data-aos-delay="300"
-        class="flex items-center justify-center gap-6 text-xs uppercase tracking-[0.2em] text-[#5d3a1a]"
-      >
-        <span class="inline-flex items-center gap-2">
-          <i class="fa-solid fa-trophy text-[#ff4500]"></i>
-          Cash Rewards
-        </span>
-        <span class="inline-flex items-center gap-2">
-          <i class="fa-solid fa-user-tie"></i>
-          Founder Eyes on You
-        </span>
-        <span class="inline-flex items-center gap-2">
-          <i class="fa-solid fa-scroll"></i>
-          Proof-of-Work Portfolio
-        </span>
-      </div>
-    </div>
-
-    <div class="scroll-indicator">
-      <div class="mouse">
-        <div class="wheel"></div>
-      </div>
-      <span>Scroll</span>
-    </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section id="about" class="py-24 px-10">
-    <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-start">
-      <div data-aos="fade-right" class="parchment-card p-10">
-        <span class="corner-glyph top-left">प्र</span>
-        <span class="corner-glyph bottom-right">
-          <i class="fa-solid fa-scroll"></i>
-        </span>
-
-        <h2 class="text-4xl font-black mb-6 text-[#2d1b0a] flex items-center gap-3">
-          <i class="fa-solid fa-book-quran text-[#8b4513]"></i>
-          What is PREARN?
-        </h2>
-        <div class="divider"></div>
-        <p class="text-lg leading-relaxed mb-4">
-          PREARN is not just another hackathon or internship portal. It is a
-          proving ground where your skills are tested against real-world
-          challenges and judged by companies, founders, and experts.
-        </p>
-        <p class="text-lg leading-relaxed">
-          Every contest is a story. Every submission is a chapter. You don’t
-          just earn money—you earn proof of work, recognition, and future
-          opportunities.
-        </p>
-      </div>
-
-      <div data-aos="fade-left" class="space-y-8">
-        <div class="parchment-card p-8">
-          <span class="corner-glyph top-left">
-            <i class="fa-solid fa-user-graduate"></i>
-          </span>
-          <h3 class="text-2xl font-bold mb-3 flex items-center gap-2">
-            <i class="fa-solid fa-chalkboard-user text-[#8b4513]"></i>
-            For Students & Learners
-          </h3>
-          <p class="leading-relaxed">
-            Turn your assignments and side projects into a portfolio that pays.
-            Work on curated problems from real companies and get paid if you're
-            among the top performers.
-          </p>
-        </div>
-
-        <div class="parchment-card p-8">
-          <span class="corner-glyph top-left">
-            <i class="fa-solid fa-building-columns"></i>
-          </span>
-          <h3 class="text-2xl font-bold mb-3 flex items-center gap-2">
-            <i class="fa-solid fa-city text-[#8b4513]"></i>
-            For Startups & Companies
-          </h3>
-          <p class="leading-relaxed">
-            Post your real problems as structured battles. Get tens or hundreds
-            of solution approaches, UI mocks, automations, campaigns, or code
-            from motivated learners.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- LIVE BATTLES -->
-  <section id="contests" class="py-24 px-10">
-    <div class="max-w-7xl mx-auto">
-      <div class="text-center mb-16">
-        <h2
-          class="text-5xl font-black text-[#2d1b0a] mb-4 flex items-center justify-center gap-4"
-        >
-          <span
-            class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-[#8b4513]/10 border-2 border-[#8b4513]"
+  <body class="min-h-screen">
+    <!-- Nav -->
+    <header class="sticky top-0 z-20 bg-[#fef7e5]/80 backdrop-blur border-b border-orange-100">
+      <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <div
+            class="h-9 w-9 rounded-2xl bg-orange-600 text-white flex items-center justify-center text-lg font-semibold"
           >
-            <i class="fa-solid fa-fire text-[#8b4513] text-xl"></i>
-          </span>
-          Live Battles
-        </h2>
-        <div class="divider"></div>
-        <p class="text-lg max-w-2xl mx-auto">
-          Choose a challenge, enter the arena, and submit your solution. Top
-          performers win money, mentorship, and opportunities.
-        </p>
+            P
+          </div>
+          <div>
+            <p class="text-sm font-semibold tracking-tight">Pralancing Platform</p>
+            <p class="text-xs text-gray-500">by PREARN</p>
+          </div>
+        </div>
+        <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-700">
+          <a href="#departments-arena" class="hover:text-orange-600">Arena</a>
+          <a href="#about" class="hover:text-orange-600">About</a>
+          <a href="#faqs" class="hover:text-orange-600">FAQs</a>
+        </nav>
+        <a
+          href="#departments-arena"
+          class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-600 text-sm font-semibold text-white shadow hover:bg-orange-700 transition"
+        >
+          Enter Arena
+          <i class="fa-solid fa-arrow-right-long text-xs"></i>
+        </a>
       </div>
+    </header>
 
-      <div class="grid md:grid-cols-3 gap-10">
-        <!-- Battle 1 -->
-        <div
-          class="parchment-card p-8 flex flex-col justify-between bg-gradient-to-br from-[#fff9e6]/80 to-[#f4e4bc]/80"
-          data-aos="zoom-in-up"
-        >
-          <span class="corner-glyph top-left">
-            <i class="fa-solid fa-code"></i>
-          </span>
-          <span class="corner-glyph bottom-right">
-            <i class="fa-solid fa-terminal"></i>
-          </span>
-
-          <div class="flex items-start gap-3 mb-4">
-            <span
-              class="h-10 w-10 rounded-full bg-[#8b4513]/10 flex items-center justify-center border border-[#8b4513]/40"
-            >
-              <i class="fa-solid fa-code text-[#8b4513]"></i>
-            </span>
-            <div>
-              <h3 class="text-2xl font-bold mb-1">
-                Battle 1: Web Dev Showdown
-              </h3>
-              <p
-                class="text-xs uppercase tracking-[0.2em] text-[#8b4513] font-black"
+    <!-- Hero -->
+    <main>
+      <section class="py-12 md:py-16">
+        <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-10 items-center">
+          <div>
+            <p class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-100 text-xs font-semibold text-orange-700 uppercase tracking-wide">
+              PREARN Special
+            </p>
+            <h1 class="mt-4 text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-gray-900">
+              Enter the <span class="text-orange-600">Departments Arena</span> and
+              showcase your skills.
+            </h1>
+            <p class="mt-4 text-gray-600 text-sm md:text-base">
+              A modern pralancing battlefield where Brainstorming, Editing, Research,
+              and Web Development fields compete through real-world challenges,
+              guided videos, and structured submissions.
+            </p>
+            <div class="mt-6 flex flex-wrap items-center gap-4">
+              <a
+                href="#departments-arena"
+                class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-orange-600 text-white text-sm font-semibold shadow-md hover:bg-orange-700 transition"
               >
-                Frontend • Landing Page • D2C
+                Enter Arena
+                <i class="fa-solid fa-arrow-right-long text-xs"></i>
+              </a>
+              <p class="text-xs text-gray-500">
+                Win cash prizes, goodies, and a chance to be featured on the platform.
               </p>
             </div>
-          </div>
-
-          <p class="mb-4">
-            Build a high-converting landing page for a D2C brand using any
-            modern framework or plain HTML/CSS.
-          </p>
-
-          <div class="flex items-center justify-between text-sm mb-4">
-            <div class="flex items-center gap-2">
-              <span
-                class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#8b4513]/10 text-[#8b4513] font-semibold"
-              >
-                <i class="fa-solid fa-trophy text-[#ff4500]"></i>
-                ₹3,000 + feature
+            <div class="mt-6 flex flex-wrap gap-4 text-xs text-gray-500">
+              <span class="inline-flex items-center gap-2">
+                <span class="h-2 w-2 rounded-full bg-green-500"></span>
+                Online & hybrid friendly
+              </span>
+              <span class="inline-flex items-center gap-2">
+                <i class="fa-solid fa-users text-[11px] text-orange-500"></i>
+                Solo or team participation
+              </span>
+              <span class="inline-flex items-center gap-2">
+                <i class="fa-solid fa-award text-[11px] text-yellow-500"></i>
+                Certificates & prizes
               </span>
             </div>
-            <div class="flex items-center gap-2 text-[#5d3a1a]">
-              <i class="fa-regular fa-clock"></i>
-              <span>Deadline: 28 Feb 2026</span>
-            </div>
           </div>
 
-          <div class="flex items-center justify-between mt-2">
-            <span
-              class="text-xs uppercase tracking-[0.2em] text-[#8b4513] font-black flex items-center gap-2"
-            >
-              <i class="fa-solid fa-users"></i>
-              Beginner–Intermediate
-            </span>
-            <a
-              href="https://docs.google.com/forms/d/e/YOUR_GOOGLE_FORM_ID_FOR_BATTLE_1/viewform"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="btn-ancient text-sm px-6 py-3 flex items-center gap-2"
-            >
-              <i class="fa-solid fa-swords"></i>
-              Enter Arena
-            </a>
-          </div>
-        </div>
-
-        <!-- Battle 2 -->
-        <div
-          class="parchment-card p-8 flex flex-col justify-between bg-gradient-to-br from-[#fff9e6]/80 to-[#f4e4bc]/80"
-          data-aos="zoom-in-up"
-          data-aos-delay="100"
-        >
-          <span class="corner-glyph top-left">
-            <i class="fa-solid fa-robot"></i>
-          </span>
-          <span class="corner-glyph bottom-right">
-            <i class="fa-solid fa-gears"></i>
-          </span>
-
-          <div class="flex items-start gap-3 mb-4">
-            <span
-              class="h-10 w-10 rounded-full bg-[#8b4513]/10 flex items-center justify-center border border-[#8b4513]/40"
-            >
-              <i class="fa-solid fa-robot text-[#8b4513]"></i>
-            </span>
-            <div>
-              <h3 class="text-2xl font-bold mb-1">Battle 2: Automation Forge</h3>
-              <p
-                class="text-xs uppercase tracking-[0.2em] text-[#8b4513] font-black"
-              >
-                No-code • Low-code • Workflow
+          <div class="space-y-4">
+            <div class="glass rounded-3xl p-4 shadow border border-orange-100">
+              <p class="text-xs font-semibold text-orange-600 uppercase tracking-wide">
+                Total Prize Pool
+              </p>
+              <p class="mt-1 text-3xl font-semibold text-gray-900">
+                ₹12,000
+                <span class="text-sm font-normal text-gray-500">
+                  + goodies & features
+                </span>
+              </p>
+              <p class="mt-2 text-xs text-gray-500">
+                Distributed across Brainstorming, Editing, Research, and Web Development
+                arenas.
               </p>
             </div>
-          </div>
-
-          <p class="mb-4">
-            Create a no-code or low-code automation that saves at least 5
-            hours/week for a small business workflow.
-          </p>
-
-          <div class="flex items-center justify-between text-sm mb-4">
-            <div class="flex items-center gap-2">
-              <span
-                class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#8b4513]/10 text-[#8b4513] font-semibold"
-              >
-                <i class="fa-solid fa-trophy text-[#ff4500]"></i>
-                ₹2,000 + pilot
-              </span>
+            <div class="grid grid-cols-2 gap-3 text-xs">
+              <div class="glass rounded-2xl p-3 border border-gray-100">
+                <p class="font-semibold text-gray-800">Brainstorming</p>
+                <p class="text-gray-500 mt-1">₹3,000 + goodies</p>
+              </div>
+              <div class="glass rounded-2xl p-3 border border-gray-100">
+                <p class="font-semibold text-gray-800">Editing</p>
+                <p class="text-gray-500 mt-1">₹3,000 + goodies</p>
+              </div>
+              <div class="glass rounded-2xl p-3 border border-gray-100">
+                <p class="font-semibold text-gray-800">Research</p>
+                <p class="text-gray-500 mt-1">₹3,000 + goodies</p>
+              </div>
+              <div class="glass rounded-2xl p-3 border border-gray-100">
+                <p class="font-semibold text-gray-800">Web Dev</p>
+                <p class="text-gray-500 mt-1">₹3,000 + goodies</p>
+              </div>
             </div>
-            <div class="flex items-center gap-2 text-[#5d3a1a]">
-              <i class="fa-regular fa-clock"></i>
-              <span>Deadline: 5 Mar 2026</span>
-            </div>
-          </div>
-
-          <div class="flex items-center justify-between mt-2">
-            <span
-              class="text-xs uppercase tracking-[0.2em] text-[#8b4513] font-black flex items-center gap-2"
-            >
-              <i class="fa-solid fa-users"></i>
-              Intermediate
-            </span>
-            <a
-              href="https://docs.google.com/forms/d/e/YOUR_GOOGLE_FORM_ID_FOR_BATTLE_2/viewform"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="btn-ancient text-sm px-6 py-3 flex items-center gap-2"
-            >
-              <i class="fa-solid fa-swords"></i>
-              Enter Arena
-            </a>
           </div>
         </div>
+      </section>
 
-        <!-- Battle 3 -->
-        <div
-          class="parchment-card p-8 flex flex-col justify-between bg-gradient-to-br from-[#fff9e6]/80 to-[#f4e4bc]/80"
-          data-aos="zoom-in-up"
-          data-aos-delay="200"
-        >
-          <span class="corner-glyph top-left">
-            <i class="fa-solid fa-palette"></i>
-          </span>
-          <span class="corner-glyph bottom-right">
-            <i class="fa-solid fa-pen-fancy"></i>
-          </span>
+      <!-- Departments Arena -->
+      <section
+        id="departments-arena"
+        class="relative py-16 bg-gradient-to-b from-[#fef7e5] to-[#fde7c5]"
+      >
+        <div class="max-w-6xl mx-auto px-4">
+          <div class="text-center mb-10">
+            <h2 class="text-3xl md:text-4xl font-semibold text-gray-900 tracking-tight">
+              Departments Arena
+            </h2>
+            <p class="mt-3 text-gray-600 max-w-2xl mx-auto text-sm md:text-base">
+              Choose your department field, click Enter Arena, and unlock brief, video
+              guidelines, prize details, and the official Google Form for submissions.
+            </p>
+          </div>
 
-          <div class="flex items-start gap-3 mb-4">
-            <span
-              class="h-10 w-10 rounded-full bg-[#8b4513]/10 flex items-center justify-center border border-[#8b4513]/40"
+          <!-- Department Fields -->
+          <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            <!-- Brainstorming -->
+            <button
+              class="group rounded-2xl border border-orange-200 bg-white/80 backdrop-blur hover:bg-orange-50 hover:border-orange-400 transition-all p-4 flex flex-col items-start text-left shadow-sm hover:shadow-md"
+              onclick="selectDepartment('brainstorming')"
             >
-              <i class="fa-solid fa-palette text-[#8b4513]"></i>
-            </span>
-            <div>
-              <h3 class="text-2xl font-bold mb-1">
-                Battle 3: Design Rannbhoomi
-              </h3>
-              <p
-                class="text-xs uppercase tracking-[0.2em] text-[#8b4513] font-black"
-              >
-                UI/UX • Mobile • Product
+              <div class="flex items-center justify-between w-full mb-3">
+                <span
+                  class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-orange-100 text-orange-600"
+                >
+                  <i class="fa-solid fa-lightbulb"></i>
+                </span>
+                <span
+                  class="text-xs font-semibold uppercase tracking-wide text-orange-500"
+                >
+                  Field
+                </span>
+              </div>
+              <h3 class="text-lg font-semibold text-gray-900">Brainstorming</h3>
+              <p class="mt-2 text-sm text-gray-600">
+                Idea generation, problem-solving, and creative concept building.
               </p>
-            </div>
+              <p class="mt-3 text-xs text-gray-500">Prize pool: ₹3,000</p>
+            </button>
+
+            <!-- Editing -->
+            <button
+              class="group rounded-2xl border border-orange-200 bg-white/80 backdrop-blur hover:bg-orange-50 hover:border-orange-400 transition-all p-4 flex flex-col items-start text-left shadow-sm hover:shadow-md"
+              onclick="selectDepartment('editing')"
+            >
+              <div class="flex items-center justify-between w-full mb-3">
+                <span
+                  class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-blue-100 text-blue-600"
+                >
+                  <i class="fa-solid fa-pen-to-square"></i>
+                </span>
+                <span
+                  class="text-xs font-semibold uppercase tracking-wide text-blue-500"
+                >
+                  Field
+                </span>
+              </div>
+              <h3 class="text-lg font-semibold text-gray-900">Editing</h3>
+              <p class="mt-2 text-sm text-gray-600">
+                Content polishing, proofreading, design and video edits.
+              </p>
+              <p class="mt-3 text-xs text-gray-500">Prize pool: ₹3,000</p>
+            </button>
+
+            <!-- Research -->
+            <button
+              class="group rounded-2xl border border-orange-200 bg-white/80 backdrop-blur hover:bg-orange-50 hover:border-orange-400 transition-all p-4 flex flex-col items-start text-left shadow-sm hover:shadow-md"
+              onclick="selectDepartment('research')"
+            >
+              <div class="flex items-center justify-between w-full mb-3">
+                <span
+                  class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-emerald-100 text-emerald-600"
+                >
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                </span>
+                <span
+                  class="text-xs font-semibold uppercase tracking-wide text-emerald-500"
+                >
+                  Field
+                </span>
+              </div>
+              <h3 class="text-lg font-semibold text-gray-900">Research</h3>
+              <p class="mt-2 text-sm text-gray-600">
+                Deep dives, data collection, and structured reports.
+              </p>
+              <p class="mt-3 text-xs text-gray-500">Prize pool: ₹3,000</p>
+            </button>
+
+            <!-- Web Development -->
+            <button
+              class="group rounded-2xl border border-orange-200 bg-white/80 backdrop-blur hover:bg-orange-50 hover:border-orange-400 transition-all p-4 flex flex-col items-start text-left shadow-sm hover:shadow-md"
+              onclick="selectDepartment('webdev')"
+            >
+              <div class="flex items-center justify-between w-full mb-3">
+                <span
+                  class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-purple-100 text-purple-600"
+                >
+                  <i class="fa-solid fa-code"></i>
+                </span>
+                <span
+                  class="text-xs font-semibold uppercase tracking-wide text-purple-500"
+                >
+                  Field
+                </span>
+              </div>
+              <h3 class="text-lg font-semibold text-gray-900">Web Development</h3>
+              <p class="mt-2 text-sm text-gray-600">
+                Frontend, backend, integrations, and full-stack challenges.
+              </p>
+              <p class="mt-3 text-xs text-gray-500">Prize pool: ₹3,000</p>
+            </button>
           </div>
 
-          <p class="mb-4">
-            Design a complete mobile app UI for a learning-to-earning journey
-            that feels ancient yet futuristic.
-          </p>
-
-          <div class="flex items-center justify-between text-sm mb-4">
-            <div class="flex items-center gap-2">
-              <span
-                class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#8b4513]/10 text-[#8b4513] font-semibold"
-              >
-                <i class="fa-solid fa-trophy text-[#ff4500]"></i>
-                ₹2,500 + 1:1 review
-              </span>
-            </div>
-            <div class="flex items-center gap-2 text-[#5d3a1a]">
-              <i class="fa-regular fa-clock"></i>
-              <span>Deadline: 10 Mar 2026</span>
-            </div>
-          </div>
-
-          <div class="flex items-center justify-between mt-2">
-            <span
-              class="text-xs uppercase tracking-[0.2em] text-[#8b4513] font-black flex items-center gap-2"
+          <!-- Enter Arena -->
+          <div class="mt-10 text-center">
+            <button
+              onclick="openArena()"
+              class="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-orange-600 text-white font-semibold shadow-md hover:bg-orange-700 transition-all"
             >
-              <i class="fa-solid fa-users"></i>
-              Design-focused
-            </span>
-            <a
-              href="https://docs.google.com/forms/d/e/YOUR_GOOGLE_FORM_ID_FOR_BATTLE_3/viewform"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="btn-ancient text-sm px-6 py-3 flex items-center gap-2"
-            >
-              <i class="fa-solid fa-swords"></i>
               Enter Arena
-            </a>
+              <i class="fa-solid fa-arrow-right-long text-sm"></i>
+            </button>
+          </div>
+
+          <!-- Arena Details Panel -->
+          <div
+            id="arena-details"
+            class="mt-10 hidden rounded-3xl border border-orange-200 bg-white/90 backdrop-blur p-6 md:p-8 shadow-lg"
+          >
+            <div
+              class="flex flex-col md:flex-row md:items-start md:justify-between gap-6"
+            >
+              <!-- Left: Text + Prize -->
+              <div class="md:w-1/2">
+                <p
+                  id="arena-badge"
+                  class="inline-flex items-center px-3 py-1 rounded-full bg-orange-100 text-xs font-semibold text-orange-700 uppercase tracking-wide"
+                >
+                  Department Field: Brainstorming
+                </p>
+                <h3
+                  id="arena-title"
+                  class="mt-4 text-2xl font-semibold text-gray-900"
+                >
+                  Brainstorming Arena
+                </h3>
+                <p id="arena-desc" class="mt-3 text-sm text-gray-600">
+                  Collaborate on raw ideas, problem statements, and high-level solutions
+                  tailored for real-world projects.
+                </p>
+
+                <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                  <div
+                    class="rounded-2xl bg-orange-50 border border-orange-100 px-4 py-3"
+                  >
+                    <p
+                      class="text-xs font-semibold text-orange-600 uppercase tracking-wide"
+                    >
+                      Prize Money
+                    </p>
+                    <p
+                      id="arena-prize"
+                      class="mt-1 text-lg font-semibold text-gray-900"
+                    >
+                      ₹3,000 + goodies
+                    </p>
+                  </div>
+                  <div
+                    class="rounded-2xl bg-gray-50 border border-gray-100 px-4 py-3"
+                  >
+                    <p
+                      class="text-xs font-semibold text-gray-500 uppercase tracking-wide"
+                    >
+                      Mode & Format
+                    </p>
+                    <p id="arena-format" class="mt-1 text-sm text-gray-700">
+                      Online, individual or team participation (details in form).
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right: Video + Form -->
+              <div class="md:w-1/2 space-y-4">
+                <!-- YouTube / Drive Embed -->
+                <div
+                  class="aspect-video rounded-2xl overflow-hidden border border-gray-200 shadow-sm"
+                >
+                  <!-- Replace src below with your YouTube or Drive preview URL -->
+                  <iframe
+                    id="arena-video"
+                    class="w-full h-full"
+                    src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                    title="Department intro"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                  ></iframe>
+                </div>
+
+                <!-- Google Form Embed -->
+                <div
+                  class="rounded-2xl border border-gray-200 bg-gray-50/80 p-3"
+                >
+                  <p
+                    class="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2"
+                  >
+                    Registration & Submission Form
+                  </p>
+                  <div
+                    class="h-72 rounded-xl overflow-hidden border border-gray-200 bg-white"
+                  >
+                    <!-- Replace src with your actual Google Form embed link -->
+                    <iframe
+                      id="arena-form"
+                      src="https://docs.google.com/forms/d/e/FORM_ID/viewform?embedded=true"
+                      class="w-full h-full"
+                      frameborder="0"
+                      marginheight="0"
+                      marginwidth="0"
+                    ></iframe>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+      </section>
+
+      <!-- About -->
+      <section id="about" class="py-12">
+        <div class="max-w-4xl mx-auto px-4">
+          <h2 class="text-xl font-semibold text-gray-900 mb-3">
+            About PREARN Pralancing Arena
+          </h2>
+          <p class="text-sm text-gray-600">
+            This arena is designed as a sandbox for students and young professionals to
+            experience real freelancing-like work in a guided, gamified environment.
+            Each department field has its own problem statement, resources, and
+            evaluation rubrics, making it easier to explore what you actually enjoy
+            doing.
+          </p>
+        </div>
+      </section>
+
+      <!-- FAQs -->
+      <section id="faqs" class="pb-16">
+        <div class="max-w-4xl mx-auto px-4">
+          <h2 class="text-xl font-semibold text-gray-900 mb-4">FAQs</h2>
+          <div class="space-y-3 text-sm text-gray-700">
+            <details class="glass rounded-2xl p-3 border border-gray-100">
+              <summary class="font-semibold cursor-pointer">
+                Can I participate in more than one department?
+              </summary>
+              <p class="mt-2 text-sm text-gray-600">
+                Yes, you can register for multiple fields, but make sure you can commit
+                to the timelines and submission requirements for each.
+              </p>
+            </details>
+
+            <details class="glass rounded-2xl p-3 border border-gray-100">
+              <summary class="font-semibold cursor-pointer">
+                How will I receive prize money?
+              </summary>
+              <p class="mt-2 text-sm text-gray-600">
+                Prize money will be transferred via UPI/bank transfer after
+                verification. Additional goodies, certificates, or features may be
+                distributed digitally or physically depending on the event.
+              </p>
+            </details>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-orange-100 bg-[#fef7e5]">
+      <div class="max-w-6xl mx-auto px-4 py-4 flex flex-wrap items-center justify-between gap-3 text-xs text-gray-500">
+        <p>© 2026 PREARN · Pralancing Arena</p>
+        <p>Built for experimentation, learning, and real-world skill building.</p>
       </div>
-    </div>
-  </section>
+    </footer>
 
-  <!-- (Old bottom submission form section has been removed) -->
+    <!-- JS for department switching -->
+    <script>
+      const departmentConfig = {
+        brainstorming: {
+          badge: "Department Field: Brainstorming",
+          title: "Brainstorming Arena",
+          desc: "Collaborate on raw ideas, problem statements, and high-level solutions tailored for real-world projects.",
+          prize: "₹3,000 + goodies",
+          format: "Online, fast-paced idea rounds with structured prompts.",
+          video: "https://www.youtube.com/embed/dQw4w9WgXcQ", // change
+          form: "https://docs.google.com/forms/d/e/FORM_ID/viewform?embedded=true" // change
+        },
+        editing: {
+          badge: "Department Field: Editing",
+          title: "Editing Arena",
+          desc: "Showcase your eye for detail with content, design, or video edits.",
+          prize: "₹3,000 + goodies",
+          format: "Online, submit before deadline; evaluation on precision and creativity.",
+          video: "https://www.youtube.com/embed/dQw4w9WgXcQ", // change
+          form: "https://docs.google.com/forms/d/e/FORM_ID/viewform?embedded=true" // change
+        },
+        research: {
+          badge: "Department Field: Research",
+          title: "Research Arena",
+          desc: "Dive deep into sources and craft well-structured, insight-rich outputs.",
+          prize: "₹3,000 + goodies",
+          format: "Online, structured report + references required.",
+          video: "https://www.youtube.com/embed/dQw4w9WgXcQ", // change
+          form: "https://docs.google.com/forms/d/e/FORM_ID/viewform?embedded=true" // change
+        },
+        webdev: {
+          badge: "Department Field: Web Development",
+          title: "Web Development Arena",
+          desc: "Build performant, responsive, and clean web experiences.",
+          prize: "₹3,000 + goodies",
+          format: "Online, GitHub repo + deployment link submission.",
+          video: "https://www.youtube.com/embed/dQw4w9WgXcQ", // change
+          form: "https://docs.google.com/forms/d/e/FORM_ID/viewform?embedded=true" // change
+        }
+      };
 
-  <script>
-    AOS.init({
-      once: true,
-      duration: 700,
-      easing: "ease-out-quart",
-    });
-  </script>
-</body>
+      let currentDepartment = "brainstorming";
+
+      function applyDepartment(cfg) {
+        document.getElementById("arena-badge").textContent = cfg.badge;
+        document.getElementById("arena-title").textContent = cfg.title;
+        document.getElementById("arena-desc").textContent = cfg.desc;
+        document.getElementById("arena-prize").textContent = cfg.prize;
+        document.getElementById("arena-format").textContent = cfg.format;
+        document.getElementById("arena-video").src = cfg.video;
+        document.getElementById("arena-form").src = cfg.form;
+        document
+          .getElementById("arena-details")
+          .classList.remove("hidden");
+        document
+          .getElementById("arena-details")
+          .scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      function selectDepartment(key) {
+        currentDepartment = key;
+        applyDepartment(departmentConfig[key]);
+      }
+
+      function openArena() {
+        applyDepartment(departmentConfig[currentDepartment]);
+      }
+    </script>
+  </body>
 </html>
