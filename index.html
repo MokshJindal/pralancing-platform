@@ -27,16 +27,17 @@
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Marchen&family=Space+Grotesk:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap");
 
+      /* Logo-inspired palette: leather brown + gold + warm orange */
       :root {
-        --primary: #8b4513;
-        --accent: #ff4500;
-        --bg: #f4e4bc;
+        --primary: #b8860b; /* warm gold */
+        --accent: #f97316; /* amber/orange for highlights */
+        --bg: #2b2116; /* deep leather brown background */
       }
 
       body {
         font-family: "Plus Jakarta Sans", sans-serif;
-        background: #d2b48c;
-        color: #2d1b0a;
+        background: #2b2116; /* darker, like logo background */
+        color: #fef3c7; /* soft warm light text */
         overflow-x: hidden;
         margin: 0;
       }
@@ -56,12 +57,8 @@
         height: 100%;
         z-index: -1;
         background:
-          linear-gradient(
-            rgba(210, 180, 140, 0.85),
-            rgba(210, 180, 140, 0.85)
-          ),
-          url("https://www.transparenttextures.com/patterns/old-map.png"),
-          radial-gradient(circle at center, #f4e4bc 0%, #d2b48c 100%);
+          radial-gradient(circle at top, #3b2919 0%, #1a120c 55%, #120c08 100%),
+          url("https://www.transparenttextures.com/patterns/leather.png");
         background-size: cover;
       }
 
@@ -70,16 +67,16 @@
         position: absolute;
         inset: 0;
         background-image: url("https://img.freepik.com/free-vector/circuit-board-pattern-background_53876-115291.jpg");
-        opacity: 0.05;
-        mix-blend-mode: multiply;
+        opacity: 0.06;
+        mix-blend-mode: soft-light;
         pointer-events: none;
       }
 
       .parchment-card {
-        background: rgba(255, 253, 230, 0.6);
+        background: radial-gradient(circle at top, #3f2f19 0%, #24180e 55%);
         backdrop-filter: blur(10px);
-        border: 2px solid #8b4513;
-        box-shadow: 10px 10px 0px rgba(139, 69, 19, 0.1);
+        border: 2px solid #b8860b;
+        box-shadow: 12px 12px 0px rgba(0, 0, 0, 0.35);
         transition: all 0.4s ease;
         position: relative;
         overflow: hidden;
@@ -91,7 +88,7 @@
         inset: 0;
         background: radial-gradient(
           circle at top left,
-          rgba(255, 255, 255, 0.3),
+          rgba(255, 255, 255, 0.09),
           transparent 60%
         );
         pointer-events: none;
@@ -99,14 +96,14 @@
 
       .parchment-card:hover {
         transform: translate(-4px, -4px);
-        box-shadow: 15px 15px 0px rgba(139, 69, 19, 0.2);
+        box-shadow: 16px 16px 0px rgba(0, 0, 0, 0.4);
       }
 
       .ancient-logo {
         font-size: 3rem;
         font-weight: 900;
-        color: #8b4513;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        color: #fbbf24; /* bright gold glyph */
+        text-shadow: 0 0 12px rgba(0, 0, 0, 0.7);
         display: inline-block;
         position: relative;
       }
@@ -117,42 +114,45 @@
         top: -10px;
         left: 0;
         font-size: 4rem;
+        color: #f59e0b;
         opacity: 0.15;
         pointer-events: none;
       }
 
       .btn-ancient {
-        background: #8b4513;
-        color: #f4e4bc;
-        border-radius: 4px;
+        background: linear-gradient(135deg, #b8860b, #f97316);
+        color: #111827;
+        border-radius: 6px;
         font-weight: 800;
         padding: 12px 24px;
         text-transform: uppercase;
         letter-spacing: 1px;
         transition: 0.3s;
+        box-shadow: 0 0 24px rgba(250, 204, 21, 0.35);
       }
 
       .btn-ancient:hover {
-        background: #ff4500;
-        transform: scale(1.05);
+        background: linear-gradient(135deg, #fbbf24, #f97316);
+        transform: scale(1.05) translateY(-1px);
+        box-shadow: 0 0 32px rgba(250, 204, 21, 0.5);
       }
 
       .text-ancient-gold {
-        background: linear-gradient(135deg, #8b4513 0%, #ff4500 100%);
+        background: linear-gradient(135deg, #fbbf24 0%, #f97316 40%, #f97316 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
       }
 
       .divider {
-        height: 4px;
+        height: 3px;
         background: repeating-linear-gradient(
           90deg,
-          #8b4513,
-          #8b4513 10px,
-          transparent 10px,
-          transparent 20px
+          #b8860b,
+          #b8860b 12px,
+          transparent 12px,
+          transparent 24px
         );
-        width: 100px;
+        width: 110px;
         margin: 20px auto;
       }
 
@@ -168,14 +168,14 @@
         font-size: 10px;
         letter-spacing: 0.3em;
         text-transform: uppercase;
-        color: #5d3a1a;
+        color: #fbbf24;
       }
 
       .scroll-indicator .mouse {
         height: 32px;
         width: 20px;
         border-radius: 999px;
-        border: 2px solid #8b4513;
+        border: 2px solid #fbbf24;
         position: relative;
         overflow: hidden;
       }
@@ -184,7 +184,7 @@
         height: 6px;
         width: 3px;
         border-radius: 999px;
-        background: #8b4513;
+        background: #fbbf24;
         position: absolute;
         top: 6px;
         left: 50%;
@@ -209,8 +209,8 @@
       .corner-glyph {
         position: absolute;
         font-size: 48px;
-        opacity: 0.06;
-        color: #8b4513;
+        opacity: 0.12;
+        color: #f97316;
         pointer-events: none;
       }
 
@@ -232,13 +232,14 @@
 
     <!-- NAVBAR -->
     <nav
-      class="fixed top-0 w-full z-50 py-6 px-10 border-b border-brown-900/10 bg-[#f4e4bc]/80 backdrop-blur-md"
+      class="fixed top-0 w-full z-50 py-6 px-10 border-b border-yellow-500/20 bg-[#1c140c]/80 backdrop-blur-md"
     >
       <div class="max-w-7xl mx-auto flex justify-between items-center">
         <div class="flex items-center space-x-4">
           <span class="ancient-logo">प्र</span>
           <span
-            class="text-3xl font-black tracking-widest text-[#8b4513]"
+            class="text-3xl font-black tracking-widest"
+            style="color:#f9e0a6"
           >
             EARN
           </span>
@@ -246,19 +247,21 @@
         <div class="hidden md:flex items-center space-x-12">
           <a
             href="#about"
-            class="text-xs font-black uppercase text-[#8b4513] hover:text-[#ff4500] tracking-[0.2em] transition-colors"
+            class="text-xs font-black uppercase tracking-[0.2em] transition-colors"
+            style="color:#fde68a"
           >
             Philosophy
           </a>
           <a
             href="#contests"
-            class="text-xs font-black uppercase text-[#8b4513] hover:text-[#ff4500] tracking-[0.2em] transition-colors"
+            class="text-xs font-black uppercase tracking-[0.2em] transition-colors"
+            style="color:#fde68a"
           >
             Battles
           </a>
           <a
             href="#contests"
-            class="btn-ancient shadow-lg shadow-black/10 flex items-center gap-2"
+            class="btn-ancient shadow-lg flex items-center gap-2"
           >
             <i class="fa-solid fa-swords"></i>
             Enter Arena
@@ -272,7 +275,8 @@
       <div class="max-w-7xl mx-auto text-center">
         <div
           data-aos="fade-down"
-          class="inline-flex items-center gap-3 px-6 py-2 border-2 border-[#8b4513] mb-12 text-xs font-black uppercase tracking-[0.3em] text-[#8b4513] bg-[#f4e4bc]/60"
+          class="inline-flex items-center gap-3 px-6 py-2 border-2 mb-12 text-xs font-black uppercase tracking-[0.3em] bg-[#1f160c]/70"
+          style="border-color:#fbbf24;color:#fed7aa"
         >
           <i class="fa-solid fa-scroll"></i>
           Ancient Skill • Modern Reward
@@ -281,7 +285,8 @@
         <h1
           data-aos="fade-up"
           data-aos-delay="100"
-          class="text-7xl md:text-9xl font-black leading-none mb-6 text-[#2d1b0a]"
+          class="text-7xl md:text-9xl font-black leading-none mb-6"
+          style="color:#fef3c7"
         >
           LEARN TO
           <span class="text-ancient-gold italic">EARN</span>
@@ -290,17 +295,19 @@
         <div
           data-aos="fade-up"
           data-aos-delay="150"
-          class="flex items-center justify-center gap-3 mb-10 text-sm font-semibold tracking-[0.2em] uppercase text-[#5d3a1a]"
+          class="flex items-center justify-center gap-3 mb-10 text-sm font-semibold tracking-[0.2em] uppercase"
+          style="color:#fcd34d"
         >
-          <span class="h-px w-10 bg-[#8b4513]"></span>
+          <span class="h-px w-10" style="background:#f59e0b"></span>
           <span>From Classroom to Combat Field of Skills</span>
-          <span class="h-px w-10 bg-[#8b4513]"></span>
+          <span class="h-px w-10" style="background:#f59e0b"></span>
         </div>
 
         <p
           data-aos="fade-up"
           data-aos-delay="200"
-          class="text-xl text-[#5d3a1a] max-w-2xl mx-auto mb-12 font-bold leading-relaxed border-l-4 border-[#8b4513] pl-8 italic"
+          class="text-xl max-w-2xl mx-auto mb-12 font-bold leading-relaxed border-l-4 pl-8 italic"
+          style="color:#fde68a;border-color:#fbbf24"
         >
           "Where the fire of intelligence (प्र) meets the arrow of progress.
           Prove your worth in the open contest."
@@ -320,7 +327,8 @@
           </a>
           <a
             href="#about"
-            class="px-12 py-6 border-4 border-[#8b4513] text-[#8b4513] font-black uppercase tracking-widest hover:bg-[#8b4513] hover:text-[#f4e4bc] transition-all flex items-center gap-3"
+            class="px-12 py-6 text-sm font-black uppercase tracking-widest flex items-center gap-3 transition-all"
+            style="border:3px solid #fbbf24;color:#fde68a"
           >
             <i class="fa-solid fa-book-open"></i>
             The "प्र" Vision
@@ -330,18 +338,19 @@
         <div
           data-aos="fade-up"
           data-aos-delay="300"
-          class="flex items-center justify-center gap-6 text-xs uppercase tracking-[0.2em] text-[#5d3a1a]"
+          class="flex items-center justify-center gap-6 text-xs uppercase tracking-[0.2em]"
+          style="color:#fde68a"
         >
           <span class="inline-flex items-center gap-2">
-            <i class="fa-solid fa-trophy text-[#ff4500]"></i>
+            <i class="fa-solid fa-trophy" style="color:#facc15"></i>
             Cash Rewards
           </span>
           <span class="inline-flex items-center gap-2">
-            <i class="fa-solid fa-user-tie"></i>
+            <i class="fa-solid fa-user-tie" style="color:#fbbf24"></i>
             Founder Eyes on You
           </span>
           <span class="inline-flex items-center gap-2">
-            <i class="fa-solid fa-scroll"></i>
+            <i class="fa-solid fa-scroll" style="color:#f97316"></i>
             Proof-of-Work Portfolio
           </span>
         </div>
@@ -366,18 +375,19 @@
             <i class="fa-solid fa-scroll"></i>
           </span>
           <h2
-            class="text-4xl font-black mb-6 text-[#2d1b0a] flex items-center gap-3"
+            class="text-4xl font-black mb-6 flex items-center gap-3"
+            style="color:#fef3c7"
           >
-            <i class="fa-solid fa-book-quran text-[#8b4513]"></i>
+            <i class="fa-solid fa-book-quran" style="color:#fbbf24"></i>
             What is PREARN?
           </h2>
           <div class="divider"></div>
-          <p class="text-lg leading-relaxed mb-4">
+          <p class="text-lg leading-relaxed mb-4" style="color:#fde68a">
             PREARN is not just another hackathon or internship portal. It is a
             proving ground where your skills are tested against real-world
             challenges and judged by companies, founders, and experts.
           </p>
-          <p class="text-lg leading-relaxed">
+          <p class="text-lg leading-relaxed" style="color:#fde68a">
             Every contest is a story. Every submission is a chapter. You don’t
             just earn money—you earn proof of work, recognition, and future
             opportunities.
@@ -391,11 +401,12 @@
             </span>
             <h3
               class="text-2xl font-bold mb-3 flex items-center gap-2"
+              style="color:#fef3c7"
             >
-              <i class="fa-solid fa-chalkboard-user text-[#8b4513]"></i>
+              <i class="fa-solid fa-chalkboard-user" style="color:#fbbf24"></i>
               For Students &amp; Learners
             </h3>
-            <p class="leading-relaxed">
+            <p class="leading-relaxed" style="color:#fde68a">
               Turn your assignments and side projects into a portfolio that
               pays. Work on curated problems from real companies and get paid
               if you're among the top performers.
@@ -408,11 +419,12 @@
             </span>
             <h3
               class="text-2xl font-bold mb-3 flex items-center gap-2"
+              style="color:#fef3c7"
             >
-              <i class="fa-solid fa-city text-[#8b4513]"></i>
+              <i class="fa-solid fa-city" style="color:#fbbf24"></i>
               For Startups &amp; Companies
             </h3>
-            <p class="leading-relaxed">
+            <p class="leading-relaxed" style="color:#fde68a">
               Post your real problems as structured battles. Get tens or
               hundreds of solution approaches, UI mocks, automations, campaigns,
               or code from motivated learners.
@@ -422,23 +434,25 @@
       </div>
     </section>
 
-    <!-- DEPARTMENTS ARENA (REPLACES LIVE BATTLES) -->
+    <!-- DEPARTMENTS ARENA -->
     <section id="contests" class="py-24 px-10">
       <div class="max-w-7xl mx-auto">
         <!-- Heading -->
         <div class="text-center mb-16">
           <h2
-            class="text-5xl font-black text-[#2d1b0a] mb-4 flex items-center justify-center gap-4"
+            class="text-5xl font-black mb-4 flex items-center justify-center gap-4"
+            style="color:#fef3c7"
           >
             <span
-              class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-[#8b4513]/10 border-2 border-[#8b4513]"
+              class="inline-flex h-12 w-12 items-center justify-center rounded-full border-2"
+              style="background:#1f160c;border-color:#fbbf24"
             >
-              <i class="fa-solid fa-fire text-[#8b4513] text-xl"></i>
+              <i class="fa-solid fa-fire" style="color:#f59e0b"></i>
             </span>
             Departments Arena
           </h2>
           <div class="divider"></div>
-          <p class="text-lg max-w-2xl mx-auto">
+          <p class="text-lg max-w-2xl mx-auto" style="color:#fde68a">
             Choose your field, enter the arena, and open a focused panel with
             details, video briefing, Google Form, and prasāda (prize) for each
             department.
@@ -449,7 +463,7 @@
         <div class="grid md:grid-cols-4 gap-8 mb-12">
           <!-- Brainstorming -->
           <button
-            class="parchment-card p-6 flex flex-col items-start gap-3 bg-gradient-to-br from-[#fff9e6]/80 to-[#f4e4bc]/80 hover:-translate-y-1"
+            class="parchment-card p-6 flex flex-col items-start gap-3 bg-gradient-to-br from-[#4b341e]/90 to-[#26170d]/95 hover:-translate-y-1"
             data-aos="zoom-in-up"
             onclick="selectField('brainstorming')"
           >
@@ -461,33 +475,38 @@
             </span>
             <div class="flex items-center gap-3 mb-2">
               <span
-                class="h-9 w-9 rounded-full bg-[#8b4513]/10 flex items-center justify-center border border-[#8b4513]/40"
+                class="h-9 w-9 rounded-full flex items-center justify-center border"
+                style="background:#3b2919;border-color:#fbbf24"
               >
-                <i
-                  class="fa-solid fa-lightbulb text-[#8b4513]"
-                ></i>
+                <i class="fa-solid fa-lightbulb" style="color:#facc15"></i>
               </span>
               <div class="text-left">
                 <p
-                  class="text-xs uppercase tracking-[0.25em] text-[#8b4513]"
+                  class="text-xs uppercase tracking-[0.25em]"
+                  style="color:#facc15"
                 >
                   Field
                 </p>
-                <h3 class="text-xl font-bold">Brainstorming</h3>
+                <h3 class="text-xl font-bold" style="color:#fef3c7">
+                  Brainstorming
+                </h3>
               </div>
             </div>
-            <p class="text-sm leading-relaxed">
+            <p class="text-sm leading-relaxed" style="color:#fde68a">
               Idea manthan: problem statements, raw concepts, and high‑tempo
               ideation rounds.
             </p>
-            <p class="mt-2 text-xs font-semibold text-[#8b4513]">
+            <p
+              class="mt-2 text-xs font-semibold"
+              style="color:#fbbf24"
+            >
               Prasāda: ₹3,000 + goodies
             </p>
           </button>
 
           <!-- Editing -->
           <button
-            class="parchment-card p-6 flex flex-col items-start gap-3 bg-gradient-to-br from-[#fff9e6]/80 to-[#f4e4bc]/80 hover:-translate-y-1"
+            class="parchment-card p-6 flex flex-col items-start gap-3 bg-gradient-to-br from-[#4b341e]/90 to-[#26170d]/95 hover:-translate-y-1"
             data-aos="zoom-in-up"
             data-aos-delay="80"
             onclick="selectField('editing')"
@@ -500,33 +519,38 @@
             </span>
             <div class="flex items-center gap-3 mb-2">
               <span
-                class="h-9 w-9 rounded-full bg-[#8b4513]/10 flex items-center justify-center border border-[#8b4513]/40"
+                class="h-9 w-9 rounded-full flex items-center justify-center border"
+                style="background:#3b2919;border-color:#fbbf24"
               >
-                <i
-                  class="fa-solid fa-pen-to-square text-[#8b4513]"
-                ></i>
+                <i class="fa-solid fa-pen-to-square" style="color:#facc15"></i>
               </span>
               <div class="text-left">
                 <p
-                  class="text-xs uppercase tracking-[0.25em] text-[#8b4513]"
+                  class="text-xs uppercase tracking-[0.25em]"
+                  style="color:#facc15"
                 >
                   Field
                 </p>
-                <h3 class="text-xl font-bold">Editing</h3>
+                <h3 class="text-xl font-bold" style="color:#fef3c7">
+                  Editing
+                </h3>
               </div>
             </div>
-            <p class="text-sm leading-relaxed">
+            <p class="text-sm leading-relaxed" style="color:#fde68a">
               Shilp for words, visuals, or videos: polish, trims, refinements,
               and aesthetic judgment.
             </p>
-            <p class="mt-2 text-xs font-semibold text-[#8b4513]">
+            <p
+              class="mt-2 text-xs font-semibold"
+              style="color:#fbbf24"
+            >
               Prasāda: ₹3,000 + goodies
             </p>
           </button>
 
           <!-- Research -->
           <button
-            class="parchment-card p-6 flex flex-col items-start gap-3 bg-gradient-to-br from-[#fff9e6]/80 to-[#f4e4bc]/80 hover:-translate-y-1"
+            class="parchment-card p-6 flex flex-col items-start gap-3 bg-gradient-to-br from-[#4b341e]/90 to-[#26170d]/95 hover:-translate-y-1"
             data-aos="zoom-in-up"
             data-aos-delay="160"
             onclick="selectField('research')"
@@ -539,33 +563,41 @@
             </span>
             <div class="flex items-center gap-3 mb-2">
               <span
-                class="h-9 w-9 rounded-full bg-[#8b4513]/10 flex items-center justify-center border border-[#8b4513]/40"
+                class="h-9 w-9 rounded-full flex items-center justify-center border"
+                style="background:#3b2919;border-color:#fbbf24"
               >
                 <i
-                  class="fa-solid fa-magnifying-glass text-[#8b4513]"
+                  class="fa-solid fa-magnifying-glass"
+                  style="color:#facc15"
                 ></i>
               </span>
               <div class="text-left">
                 <p
-                  class="text-xs uppercase tracking-[0.25em] text-[#8b4513]"
+                  class="text-xs uppercase tracking-[0.25em]"
+                  style="color:#facc15"
                 >
                   Field
                 </p>
-                <h3 class="text-xl font-bold">Research</h3>
+                <h3 class="text-xl font-bold" style="color:#fef3c7">
+                  Research
+                </h3>
               </div>
             </div>
-            <p class="text-sm leading-relaxed">
+            <p class="text-sm leading-relaxed" style="color:#fde68a">
               Tattva‑style deep dives: sources, data, references, and structured
               arguments.
             </p>
-            <p class="mt-2 text-xs font-semibold text-[#8b4513]">
+            <p
+              class="mt-2 text-xs font-semibold"
+              style="color:#fbbf24"
+            >
               Prasāda: ₹3,000 + goodies
             </p>
           </button>
 
           <!-- Web Development -->
           <button
-            class="parchment-card p-6 flex flex-col items-start gap-3 bg-gradient-to-br from-[#fff9e6]/80 to-[#f4e4bc]/80 hover:-translate-y-1"
+            class="parchment-card p-6 flex flex-col items-start gap-3 bg-gradient-to-br from-[#4b341e]/90 to-[#26170d]/95 hover:-translate-y-1"
             data-aos="zoom-in-up"
             data-aos-delay="240"
             onclick="selectField('webdev')"
@@ -578,24 +610,31 @@
             </span>
             <div class="flex items-center gap-3 mb-2">
               <span
-                class="h-9 w-9 rounded-full bg-[#8b4513]/10 flex items-center justify-center border border-[#8b4513]/40"
+                class="h-9 w-9 rounded-full flex items-center justify-center border"
+                style="background:#3b2919;border-color:#fbbf24"
               >
-                <i class="fa-solid fa-code text-[#8b4513]"></i>
+                <i class="fa-solid fa-code" style="color:#facc15"></i>
               </span>
               <div class="text-left">
                 <p
-                  class="text-xs uppercase tracking-[0.25em] text-[#8b4513]"
+                  class="text-xs uppercase tracking-[0.25em]"
+                  style="color:#facc15"
                 >
                   Field
                 </p>
-                <h3 class="text-xl font-bold">Web Development</h3>
+                <h3 class="text-xl font-bold" style="color:#fef3c7">
+                  Web Development
+                </h3>
               </div>
             </div>
-            <p class="text-sm leading-relaxed">
+            <p class="text-sm leading-relaxed" style="color:#fde68a">
               Yantra building: frontend, backend, or fullstack – ship usable,
               deployable experiences.
             </p>
-            <p class="mt-2 text-xs font-semibold text-[#8b4513]">
+            <p
+              class="mt-2 text-xs font-semibold"
+              style="color:#fbbf24"
+            >
               Prasāda: ₹3,000 + goodies
             </p>
           </button>
@@ -615,7 +654,7 @@
         <!-- Dynamic Arena Details Panel -->
         <div
           id="arena-details"
-          class="parchment-card p-10 mt-4 hidden bg-gradient-to-br from-[#fffdf0]/95 to-[#f4e4bc]/95"
+          class="parchment-card p-10 mt-4 hidden bg-gradient-to-br from-[#3b2919]/95 to-[#1f150d]/95"
           data-aos="fade-up"
         >
           <span class="corner-glyph top-left">
@@ -630,18 +669,22 @@
             <div>
               <p
                 id="arena-badge"
-                class="inline-flex items-center gap-2 px-4 py-1 border border-[#8b4513] text-xs font-black uppercase tracking-[0.25em] text-[#8b4513] bg-[#f4e4bc]/70"
+                class="inline-flex items-center gap-2 px-4 py-1 text-xs font-black uppercase tracking-[0.25em]"
+                style="border:1px solid #fbbf24;background:#3b2919;color:#facc15"
               >
                 Field: Brainstorming
               </p>
               <h3
-                class="text-3xl font-black mt-5 mb-3 text-[#2d1b0a]"
+                class="text-3xl font-black mt-5 mb-3"
+                id="arena-title"
+                style="color:#fef3c7"
               >
-                <span id="arena-title">Brainstorming Arena</span>
+                Brainstorming Arena
               </h3>
               <p
                 id="arena-desc"
-                class="text-sm md:text-base leading-relaxed text-[#5d3a1a] mb-6"
+                class="text-sm md:text-base leading-relaxed mb-6"
+                style="color:#fde68a"
               >
                 Engage in guided manthan – structured idea rounds with prompts
                 inspired by real founders and product problems.
@@ -649,31 +692,37 @@
 
               <div class="grid sm:grid-cols-2 gap-4 text-sm">
                 <div
-                  class="p-4 border-2 border-[#8b4513] bg-[#fffdf0]/80 flex flex-col gap-1"
+                  class="p-4 flex flex-col gap-1"
+                  style="border:2px solid #fbbf24;background:#362514"
                 >
                   <p
-                    class="text-xs uppercase tracking-[0.25em] text-[#8b4513]"
+                    class="text-xs uppercase tracking-[0.25em]"
+                    style="color:#facc15"
                   >
                     Prasāda (Prize)
                   </p>
                   <p
                     id="arena-prize"
-                    class="text-lg font-bold text-[#2d1b0a]"
+                    class="text-lg font-bold"
+                    style="color:#fef3c7"
                   >
                     ₹3,000 + curated goodies
                   </p>
                 </div>
                 <div
-                  class="p-4 border-2 border-[#8b4513]/60 bg-[#f8e8c0]/60 flex flex-col gap-1"
+                  class="p-4 flex flex-col gap-1"
+                  style="border:2px solid #fbbf24;background:#2b1b10"
                 >
                   <p
-                    class="text-xs uppercase tracking-[0.25em] text-[#8b4513]"
+                    class="text-xs uppercase tracking-[0.25em]"
+                    style="color:#facc15"
                   >
                     Mode & Format
                   </p>
                   <p
                     id="arena-format"
-                    class="text-sm text-[#5d3a1a]"
+                    class="text-sm"
+                    style="color:#fde68a"
                   >
                     Online; prompts released in phases. Solo or team, as
                     mentioned in the Google Form.
@@ -684,12 +733,16 @@
 
             <!-- Right: Video + Google Form -->
             <div class="space-y-4">
-              <div class="text-sm font-semibold text-[#5d3a1a]">
-                <i class="fa-solid fa-video text-[#8b4513] mr-2"></i>
+              <div
+                class="text-sm font-semibold"
+                style="color:#fde68a"
+              >
+                <i class="fa-solid fa-video" style="color:#fbbf24;margin-right:0.5rem"></i>
                 Arena Briefing Video / Drive
               </div>
               <div
-                class="relative w-full aspect-video border-2 border-[#8b4513] bg-black/70"
+                class="relative w-full aspect-video border-2"
+                style="border-color:#fbbf24;background:#000"
               >
                 <iframe
                   id="arena-video"
@@ -702,12 +755,16 @@
                 ></iframe>
               </div>
 
-              <div class="text-sm font-semibold text-[#5d3a1a] mt-4">
-                <i class="fa-solid fa-scroll text-[#8b4513] mr-2"></i>
+              <div
+                class="text-sm font-semibold mt-4"
+                style="color:#fde68a"
+              >
+                <i class="fa-solid fa-scroll" style="color:#fbbf24;margin-right:0.5rem"></i>
                 Official Google Form (Registration & Submission)
               </div>
               <div
-                class="h-72 border-2 border-[#8b4513] bg-[#fffdf0] overflow-hidden"
+                class="h-72 overflow-hidden"
+                style="border:2px solid #fbbf24;background:#1f150d"
               >
                 <iframe
                   id="arena-form"
