@@ -27,6 +27,7 @@
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
 
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Marchen&family=Space+Grotesk:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap");
@@ -627,9 +628,13 @@
                   <!-- Form and Database -->
                   <div class="space-y-6">
                     <div>
-                      <div class="text-sm font-semibold mb-2" style="color:#fde68a"><i class="fa-solid fa-table" style="color:#fbbf24;margin-right:0.5rem"></i>Target Database (Sheets)</div>
-                      <div class="h-64 border-2 flex items-center justify-center bg-[#1f150d]" style="border-color:#fbbf24;">
-                        <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQ_XYZ_PLACEHOLDER/pubhtml?widget=true&amp;headers=false" class="w-full h-full" title="Database Placeholder"></iframe>
+                      <div class="text-sm font-semibold mb-2 flex justify-between items-center" style="color:#fde68a">
+                         <div><i class="fa-solid fa-table" style="color:#fbbf24;margin-right:0.5rem"></i>Target Database (Live)</div>
+                      </div>
+                      <div id="leads-container" class="border-2 min-h-[16rem] bg-[#1f150d] relative flex flex-col" style="border-color:#fbbf24;">
+                        <div class="text-center p-6 m-auto">
+                           <p class="text-sm" style="color:#fde68a">Loading database connection...</p>
+                        </div>
                       </div>
                     </div>
                     <div>
@@ -1119,7 +1124,10 @@
       }
 
       const auth = firebase.auth();
+      const db = firebase.firestore();
       const provider = new firebase.auth.GoogleAuthProvider();
+
+      let currentUser = null;
 
       // Listen to Auth State Changes
       auth.onAuthStateChanged((user) => {
@@ -1127,15 +1135,150 @@
         const privateContent = document.getElementById("private-content");
         
         if (user) {
-          // User is signed in
+          currentUser = user;
           if(authBanner) authBanner.classList.add("hidden");
           if(privateContent) privateContent.classList.remove("hidden");
+          loadMyLeads();
         } else {
-          // User is signed out
+          currentUser = null;
           if(authBanner) authBanner.classList.remove("hidden");
           if(privateContent) privateContent.classList.add("hidden");
+          document.getElementById('leads-container').innerHTML = '';
         }
       });
+
+      async function requestLeads() {
+        if (!currentUser) return;
+        const btn = document.getElementById('request-leads-btn');
+        if (btn) {
+          btn.disabled = true;
+          btn.innerText = "Requesting...";
+        }
+
+        try {
+          const snapshot = await db.collection('leads')
+                                  .where('status', '==', 'Unassigned')
+                                  .limit(20)
+                                  .get();
+          
+          if (snapshot.empty) {
+             alert("No more unassigned leads available in the database.");
+             if (btn) {
+               btn.innerText = "Request Leads";
+               btn.disabled = false;
+             }
+             return;
+          }
+
+          const batch = db.batch();
+          snapshot.docs.forEach(doc => {
+             batch.update(doc.ref, { 
+                status: 'Assigned',
+                assignedTo: currentUser.uid,
+                assignedName: currentUser.email || currentUser.displayName || 'Unknown Agent'
+             });
+          });
+
+          await batch.commit();
+          // The onSnapshot listener will automatically refresh the UI!
+        } catch (e) {
+          console.error("Error requesting leads", e);
+          alert("Error requesting leads. Please ensure the database is initialized.");
+          if (btn) {
+             btn.innerText = "Request Leads";
+             btn.disabled = false;
+          }
+        }
+      }
+
+      function loadMyLeads() {
+         if (!currentUser) return;
+         const container = document.getElementById('leads-container');
+         container.innerHTML = '<div class="text-center p-4 text-gray-400 m-auto">Syncing database...</div>';
+
+         db.collection('leads')
+           .where('assignedTo', '==', currentUser.uid)
+           .onSnapshot(snapshot => {
+              if (snapshot.empty) {
+                 container.innerHTML = `
+                    <div class="text-center p-6 m-auto">
+                      <p class="mb-4 text-sm" style="color:#fde68a">You have no active leads.</p>
+                      <button id="request-leads-btn" onclick="requestLeads()" class="btn-ancient text-sm">Request 20 Leads</button>
+                    </div>
+                 `;
+                 return;
+              }
+
+              let html = `
+                <div class="overflow-y-auto w-full h-full" style="max-height: 24rem;">
+                  <table class="w-full text-left text-sm" style="color:#fde68a">
+                    <thead class="sticky top-0 bg-[#3b2919] border-b border-yellow-500/30 z-10">
+                      <tr>
+                        <th class="p-3">Name</th>
+                        <th class="p-3">Phone</th>
+                        <th class="p-3">Email</th>
+                        <th class="p-3">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+              `;
+
+              let allCompleted = true;
+
+              snapshot.docs.forEach(doc => {
+                 const data = doc.data();
+                 if (data.status === 'Assigned') allCompleted = false;
+                 
+                 let selectColor = "bg-[#2b1b10] text-gray-300 border-gray-600";
+                 if (data.status === 'Red') selectColor = "bg-red-900/50 text-red-300 border-red-500";
+                 if (data.status === 'Yellow') selectColor = "bg-yellow-900/50 text-yellow-300 border-yellow-500";
+                 if (data.status === 'Green') selectColor = "bg-green-900/50 text-green-300 border-green-500";
+
+                 html += `
+                    <tr class="border-b border-yellow-500/10 hover:bg-[#3b2919]/50">
+                      <td class="p-3 font-semibold">${data.Name || data.name || '-'}</td>
+                      <td class="p-3">${data.Phone || data.phone || '-'}</td>
+                      <td class="p-3">${data.Email || data.email || '-'}</td>
+                      <td class="p-3">
+                        <select onchange="updateLeadStatus('${doc.id}', this.value)" class="text-xs p-2 rounded border focus:outline-none focus:ring-1 focus:ring-yellow-500 ${selectColor}">
+                           <option value="Assigned" ${data.status === 'Assigned' ? 'selected' : ''}>Pending (Call)</option>
+                           <option value="Red" ${data.status === 'Red' ? 'selected' : ''}>Red (Not Interested)</option>
+                           <option value="Yellow" ${data.status === 'Yellow' ? 'selected' : ''}>Yellow (Call Back)</option>
+                           <option value="Green" ${data.status === 'Green' ? 'selected' : ''}>Green (Interested)</option>
+                        </select>
+                      </td>
+                    </tr>
+                 `;
+              });
+
+              html += `</tbody></table></div>`;
+
+              if (allCompleted) {
+                 html += `
+                   <div class="text-center bg-[#2b1b10] border-t border-yellow-500/30 p-4 shrink-0">
+                      <p class="text-xs text-green-400 mb-3 font-bold"><i class="fa-solid fa-check-circle mr-1"></i> Great job! You have marked all your leads.</p>
+                      <button id="request-leads-btn" onclick="requestLeads()" class="btn-ancient text-xs py-2 px-4">Request 20 MORE Leads</button>
+                   </div>
+                 `;
+              }
+
+              container.innerHTML = html;
+           }, err => {
+              console.error("Firestore error:", err);
+              if (err.message.includes('requires an index')) {
+                 container.innerHTML = `<div class="p-4 text-red-400 text-sm">Database index required. Please contact admin.</div>`;
+              }
+           });
+      }
+
+      window.updateLeadStatus = function(docId, newStatus) {
+         db.collection('leads').doc(docId).update({
+            status: newStatus
+         }).catch(err => {
+            console.error("Update failed", err);
+            alert("Failed to save status. Please check connection.");
+         });
+      }
 
       function signInWithGoogle() {
         auth.signInWithPopup(provider)

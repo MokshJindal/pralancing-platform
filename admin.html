@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PREARN - Admin Portal</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+  
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+
+  <!-- PapaParse for CSV -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Marchen&family=Space+Grotesk:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap");
+    body {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      background: #120c08;
+      color: #fef3c7;
+      margin: 0;
+    }
+    .btn-ancient {
+      background: linear-gradient(135deg, #b8860b, #f97316);
+      color: #111827;
+      border-radius: 6px;
+      font-weight: 800;
+      padding: 10px 20px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+    .btn-ancient:hover {
+      background: linear-gradient(135deg, #fbbf24, #f97316);
+      transform: scale(1.02);
+    }
+  </style>
+</head>
+<body class="p-8">
+
+  <!-- AUTH GATE -->
+  <div id="auth-gate" class="max-w-md mx-auto text-center py-20">
+     <i class="fa-solid fa-user-shield text-5xl mb-6 text-yellow-500"></i>
+     <h1 class="text-3xl font-bold mb-4">Admin Portal Access</h1>
+     <p class="text-gray-400 mb-8">Please sign in with your administrator Google account.</p>
+     <button onclick="signIn()" class="btn-ancient w-full"><i class="fa-brands fa-google mr-2"></i> Sign in as Admin</button>
+  </div>
+
+  <!-- ADMIN DASHBOARD -->
+  <div id="admin-dashboard" class="hidden max-w-7xl mx-auto space-y-8">
+     <div class="flex justify-between items-center bg-[#2b1b10] p-6 rounded-lg border border-yellow-500/30">
+        <div>
+           <h2 class="text-2xl font-bold text-yellow-500">Master Data Dashboard</h2>
+           <p class="text-sm text-gray-400">Upload CSVs and monitor agent progress</p>
+        </div>
+        <div class="flex items-center gap-4">
+           <span id="admin-email" class="text-sm text-gray-400"></span>
+           <button onclick="signOut()" class="text-xs text-red-400 hover:underline">Sign Out</button>
+        </div>
+     </div>
+
+     <div class="grid md:grid-cols-3 gap-8">
+        
+        <!-- UPLOAD SECTION -->
+        <div class="bg-[#1f150d] p-6 rounded-lg border border-yellow-500/30 h-fit">
+           <h3 class="text-xl font-bold mb-4"><i class="fa-solid fa-file-csv text-green-400 mr-2"></i> Upload New Leads</h3>
+           <p class="text-xs text-gray-400 mb-4">Upload a CSV file containing columns for Name, Phone, and Email. The leads will be marked as "Unassigned" and pushed to the database.</p>
+           
+           <input type="file" id="csv-file" accept=".csv" class="block w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-yellow-500 file:text-[#120c08] hover:file:bg-yellow-400 mb-4 cursor-pointer" />
+           
+           <button onclick="uploadCSV()" id="upload-btn" class="btn-ancient w-full text-sm">Upload to Database</button>
+           <p id="upload-status" class="text-xs text-center mt-3 text-yellow-400"></p>
+        </div>
+
+        <!-- MASTER TABLE SECTION -->
+        <div class="md:col-span-2 bg-[#1f150d] rounded-lg border border-yellow-500/30 overflow-hidden flex flex-col h-[700px]">
+           <div class="p-4 border-b border-yellow-500/30 flex justify-between items-center bg-[#2b1b10]">
+              <h3 class="font-bold"><i class="fa-solid fa-database text-yellow-500 mr-2"></i> All Leads Database</h3>
+              <div class="text-xs text-gray-400">Live Syncing</div>
+           </div>
+           
+           <div class="overflow-auto flex-1 p-0">
+              <table class="w-full text-left text-sm whitespace-nowrap">
+                 <thead class="sticky top-0 bg-[#3b2919] z-10 border-b border-yellow-500/50">
+                    <tr>
+                       <th class="p-3">Name</th>
+                       <th class="p-3">Phone</th>
+                       <th class="p-3">Email</th>
+                       <th class="p-3">Agent Name</th>
+                       <th class="p-3">Status</th>
+                    </tr>
+                 </thead>
+                 <tbody id="master-table-body">
+                    <tr><td colspan="5" class="p-6 text-center text-gray-400">Loading data...</td></tr>
+                 </tbody>
+              </table>
+           </div>
+        </div>
+
+     </div>
+  </div>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCT-7mr5SsG9NpGFErIMNy-Slt8l1seI08",
+      authDomain: "prearn-ba75a.firebaseapp.com",
+      projectId: "prearn-ba75a",
+      storageBucket: "prearn-ba75a.firebasestorage.app",
+      messagingSenderId: "759018478564",
+      appId: "1:759018478564:web:3bfa231b534e4836be45f1"
+    };
+
+    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+    const provider = new firebase.auth.GoogleAuthProvider();
+
+    auth.onAuthStateChanged(user => {
+       if (user) {
+          document.getElementById('auth-gate').classList.add('hidden');
+          document.getElementById('admin-dashboard').classList.remove('hidden');
+          document.getElementById('admin-email').innerText = user.email;
+          loadMasterTable();
+       } else {
+          document.getElementById('auth-gate').classList.remove('hidden');
+          document.getElementById('admin-dashboard').classList.add('hidden');
+       }
+    });
+
+    function signIn() {
+       auth.signInWithPopup(provider).catch(err => alert("Login failed: " + err.message));
+    }
+    function signOut() {
+       auth.signOut();
+    }
+
+    async function uploadCSV() {
+       const fileInput = document.getElementById('csv-file');
+       if (!fileInput.files.length) return alert("Please select a CSV file first.");
+       
+       const file = fileInput.files[0];
+       const btn = document.getElementById('upload-btn');
+       const status = document.getElementById('upload-status');
+       
+       btn.disabled = true;
+       btn.innerText = "Parsing...";
+
+       Papa.parse(file, {
+          header: true,
+          skipEmptyLines: true,
+          complete: async function(results) {
+             const data = results.data;
+             if(data.length === 0) {
+                alert("CSV is empty or invalid format.");
+                btn.disabled = false; btn.innerText = "Upload to Database";
+                return;
+             }
+
+             status.innerText = `Found ${data.length} rows. Uploading...`;
+             
+             try {
+                // Firestore limit is 500 writes per batch. We process in chunks.
+                const chunks = [];
+                for (let i = 0; i < data.length; i += 500) {
+                   chunks.push(data.slice(i, i + 500));
+                }
+
+                let uploadedCount = 0;
+                for (let chunk of chunks) {
+                   const batch = db.batch();
+                   chunk.forEach(row => {
+                      const docRef = db.collection('leads').doc();
+                      batch.set(docRef, {
+                         name: row.Name || row.name || row["Client Name"] || "",
+                         phone: row.Phone || row.phone || row["Phone Number"] || "",
+                         email: row.Email || row.email || "",
+                         status: "Unassigned",
+                         assignedTo: null,
+                         assignedName: null,
+                         createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                      });
+                   });
+                   await batch.commit();
+                   uploadedCount += chunk.length;
+                   status.innerText = `Uploaded ${uploadedCount} / ${data.length}...`;
+                }
+
+                status.innerText = "Upload Complete!";
+                status.classList.add("text-green-400");
+                fileInput.value = "";
+                setTimeout(() => { status.innerText = ""; status.classList.remove("text-green-400"); }, 3000);
+
+             } catch (err) {
+                console.error(err);
+                alert("Upload failed. See console for details.");
+             }
+
+             btn.disabled = false;
+             btn.innerText = "Upload to Database";
+          }
+       });
+    }
+
+    function loadMasterTable() {
+       // Only load if authenticated
+       if(!auth.currentUser) return;
+       
+       db.collection('leads').limit(2000).onSnapshot(snapshot => {
+          renderDocs(snapshot);
+       }, err => {
+          console.error(err);
+       });
+    }
+
+    function renderDocs(snapshot) {
+        const tbody = document.getElementById('master-table-body');
+        if (snapshot.empty) {
+            tbody.innerHTML = '<tr><td colspan="5" class="p-6 text-center text-gray-400">No leads found in database.</td></tr>';
+            return;
+        }
+
+        let html = '';
+        snapshot.docs.forEach(doc => {
+            const data = doc.data();
+            
+            let statusBadge = '<span class="px-2 py-1 bg-gray-800 text-gray-300 rounded text-xs border border-gray-600">Unassigned</span>';
+            if (data.status === 'Assigned') statusBadge = '<span class="px-2 py-1 bg-blue-900/50 text-blue-300 rounded text-xs border border-blue-500">Assigned (Pending)</span>';
+            if (data.status === 'Red') statusBadge = '<span class="px-2 py-1 bg-red-900/50 text-red-300 rounded text-xs border border-red-500">Red (Not Interested)</span>';
+            if (data.status === 'Yellow') statusBadge = '<span class="px-2 py-1 bg-yellow-900/50 text-yellow-300 rounded text-xs border border-yellow-500">Yellow (Call Back)</span>';
+            if (data.status === 'Green') statusBadge = '<span class="px-2 py-1 bg-green-900/50 text-green-300 rounded text-xs border border-green-500">Green (Interested)</span>';
+
+            html += `
+            <tr class="border-b border-yellow-500/10 hover:bg-[#3b2919]/50">
+                <td class="p-3">${data.name || '-'}</td>
+                <td class="p-3">${data.phone || '-'}</td>
+                <td class="p-3">${data.email || '-'}</td>
+                <td class="p-3 font-semibold text-yellow-200">${data.assignedName || '-'}</td>
+                <td class="p-3">${statusBadge}</td>
+            </tr>
+            `;
+        });
+        tbody.innerHTML = html;
+    }
+  </script>
+</body>
+</html>
