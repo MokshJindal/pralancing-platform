@@ -120,12 +120,23 @@
     const db = firebase.firestore();
     const provider = new firebase.auth.GoogleAuthProvider();
 
+    const ALLOWED_ADMINS = [
+      "your.email@gmail.com", // <-- Replace this with your actual Google email!
+      // "partner.email@gmail.com" // You can add more admins here separated by commas
+    ];
+
     auth.onAuthStateChanged(user => {
        if (user) {
-          document.getElementById('auth-gate').classList.add('hidden');
-          document.getElementById('admin-dashboard').classList.remove('hidden');
-          document.getElementById('admin-email').innerText = user.email;
-          loadMasterTable();
+          // Check if the logged-in user is in our allowed list
+          if (ALLOWED_ADMINS.includes(user.email)) {
+             document.getElementById('auth-gate').classList.add('hidden');
+             document.getElementById('admin-dashboard').classList.remove('hidden');
+             document.getElementById('admin-email').innerText = user.email;
+             loadMasterTable();
+          } else {
+             alert("Access Denied: Your email (" + user.email + ") is not authorized for the Admin Panel.");
+             auth.signOut();
+          }
        } else {
           document.getElementById('auth-gate').classList.remove('hidden');
           document.getElementById('admin-dashboard').classList.add('hidden');
