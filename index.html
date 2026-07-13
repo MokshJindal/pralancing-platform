@@ -594,7 +594,7 @@
               <!-- Private Content (Hidden until login) -->
               <div id="private-content" class="hidden space-y-10">
                 <div class="p-4 bg-green-900/30 border border-green-500/50 rounded flex items-center justify-between">
-                  <span class="text-green-400 font-bold"><i class="fa-solid fa-check-circle mr-2"></i>Authenticated Successfully</span>
+                  <span class="text-green-400 font-bold"><i class="fa-solid fa-check-circle mr-2"></i>Authenticated: <span id="user-email-display" class="font-normal text-green-300"></span></span>
                   <button onclick="signOutGoogle()" class="text-sm text-gray-400 hover:text-white underline">Sign Out</button>
                 </div>
                 
@@ -1150,6 +1150,8 @@
           currentUser = user;
           if(authBanner) authBanner.classList.add("hidden");
           if(privateContent) privateContent.classList.remove("hidden");
+          const emailDisplay = document.getElementById("user-email-display");
+          if(emailDisplay) emailDisplay.innerText = user.email;
           loadMyLeads();
         } else {
           currentUser = null;
@@ -1227,6 +1229,7 @@
                     <thead class="sticky top-0 bg-[#3b2919] border-b border-yellow-500/30 z-10">
                       <tr>
                         <th class="p-3">Name</th>
+                        <th class="p-3">Category</th>
                         <th class="p-3">Phone</th>
                         <th class="p-3">Email</th>
                         <th class="p-3">Status</th>
@@ -1249,6 +1252,7 @@
                  html += `
                     <tr class="border-b border-yellow-500/10 hover:bg-[#3b2919]/50">
                       <td class="p-3 font-semibold">${data.Name || data.name || '-'}</td>
+                      <td class="p-3"><span class="text-xs text-yellow-500 bg-yellow-900/30 px-2 py-1 rounded border border-yellow-500/20">${data.category || 'N/A'}</span></td>
                       <td class="p-3">${data.Phone || data.phone || '-'}</td>
                       <td class="p-3">${data.Email || data.email || '-'}</td>
                       <td class="p-3">
@@ -1315,6 +1319,69 @@
           console.error("Logout error:", error);
         });
       }
+    </script>
+    
+    <!-- PROMOTIONAL POPUP MODAL -->
+    <div id="promo-popup" class="fixed inset-0 bg-black/80 z-[100] hidden items-center justify-center p-4 backdrop-blur-sm transition-opacity duration-300 opacity-0">
+       <div class="bg-gradient-to-b from-[#2b1b10] to-[#120c08] border-2 border-yellow-500/50 rounded-2xl max-w-lg w-full p-8 shadow-2xl relative transform transition-transform duration-300 scale-95" id="promo-popup-content">
+          <button onclick="closePromoPopup()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition">
+             <i class="fa-solid fa-xmark text-2xl"></i>
+          </button>
+          
+          <div class="text-center mb-6">
+             <div class="w-16 h-16 bg-yellow-500/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-yellow-500/50">
+                <i class="fa-solid fa-rocket text-yellow-400 text-3xl"></i>
+             </div>
+             <h2 class="text-3xl font-bold text-white mb-2 tracking-wide font-cinzel">New Project Live!</h2>
+             <h3 class="text-xl text-yellow-500 font-bold tracking-widest uppercase">Business Outreach</h3>
+          </div>
+          
+          <p class="text-gray-300 text-center mb-8">
+             A brand new earning opportunity has arrived. Get access to the target database, exclusive strategies, and start closing deals immediately.
+          </p>
+          
+          <button onclick="goToOutreachProject()" class="w-full py-4 bg-gradient-to-r from-yellow-600 to-yellow-500 hover:from-yellow-500 hover:to-yellow-400 text-[#120c08] font-bold rounded-lg text-lg uppercase tracking-wider shadow-[0_0_15px_rgba(234,179,8,0.5)] transition transform hover:-translate-y-1">
+             Start Earning Now <i class="fa-solid fa-arrow-right ml-2"></i>
+          </button>
+       </div>
+    </div>
+
+    <script>
+       // Logic to show popup once per session
+       document.addEventListener("DOMContentLoaded", () => {
+          if (!sessionStorage.getItem('promoSeen')) {
+             setTimeout(() => {
+                const popup = document.getElementById('promo-popup');
+                const content = document.getElementById('promo-popup-content');
+                popup.classList.remove('hidden');
+                popup.classList.add('flex');
+                // Trigger animation
+                setTimeout(() => {
+                   popup.classList.remove('opacity-0');
+                   content.classList.remove('scale-95');
+                   content.classList.add('scale-100');
+                }, 10);
+                sessionStorage.setItem('promoSeen', 'true');
+             }, 2000); // Show 2 seconds after load
+          }
+       });
+
+       function closePromoPopup() {
+          const popup = document.getElementById('promo-popup');
+          const content = document.getElementById('promo-popup-content');
+          popup.classList.add('opacity-0');
+          content.classList.remove('scale-100');
+          content.classList.add('scale-95');
+          setTimeout(() => {
+             popup.classList.remove('flex');
+             popup.classList.add('hidden');
+          }, 300);
+       }
+
+       function goToOutreachProject() {
+          closePromoPopup();
+          document.getElementById('business-outreach').scrollIntoView({ behavior: 'smooth' });
+       }
     </script>
   </body>
 </html>

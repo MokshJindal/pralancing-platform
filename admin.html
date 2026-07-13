@@ -81,6 +81,7 @@
             <div class="bg-[#1f150d] p-6 rounded-lg border border-yellow-500/30">
                <h3 class="text-xl font-bold mb-4"><i class="fa-solid fa-user-plus text-blue-400 mr-2"></i> Add Single Lead</h3>
                <input type="text" id="single-name" placeholder="Name" class="w-full p-2 bg-[#2b1b10] border border-yellow-500/30 rounded mb-3 text-sm focus:outline-none focus:border-yellow-500" />
+               <input type="text" id="single-category" placeholder="Category (e.g. Gym, Restaurant)" class="w-full p-2 bg-[#2b1b10] border border-yellow-500/30 rounded mb-3 text-sm focus:outline-none focus:border-yellow-500" />
                <input type="text" id="single-phone" placeholder="Phone" class="w-full p-2 bg-[#2b1b10] border border-yellow-500/30 rounded mb-3 text-sm focus:outline-none focus:border-yellow-500" />
                <input type="email" id="single-email" placeholder="Email" class="w-full p-2 bg-[#2b1b10] border border-yellow-500/30 rounded mb-4 text-sm focus:outline-none focus:border-yellow-500" />
                <button onclick="addSingleLead()" class="w-full p-2 bg-blue-600 hover:bg-blue-500 text-white rounded font-bold transition text-sm">Add Lead</button>
@@ -121,6 +122,7 @@
                        <th class="p-3 w-10 text-center"><input type="checkbox" id="select-all" onclick="toggleSelectAll()" class="accent-yellow-500 cursor-pointer" /></th>
                        <th class="p-3 w-10">#</th>
                        <th class="p-3">Name</th>
+                       <th class="p-3">Category</th>
                        <th class="p-3">Phone</th>
                        <th class="p-3">Email</th>
                        <th class="p-3 w-64">Agent Assignment</th>
@@ -129,7 +131,7 @@
                     </tr>
                  </thead>
                  <tbody id="master-table-body">
-                    <tr><td colspan="8" class="p-6 text-center text-gray-400">Loading data...</td></tr>
+                    <tr><td colspan="9" class="p-6 text-center text-gray-400">Loading data...</td></tr>
                  </tbody>
               </table>
            </div>
@@ -224,6 +226,7 @@
                       const docRef = db.collection('leads').doc();
                       batch.set(docRef, {
                          name: row.Name || row.name || row["Client Name"] || "",
+                         category: row.Category || row.category || row["Business Category"] || "",
                          phone: row.Phone || row.phone || row["Phone Number"] || "",
                          email: row.Email || row.email || "",
                          status: "Unassigned",
@@ -306,6 +309,7 @@
                 <td class="p-3 text-center"><input type="checkbox" class="row-checkbox accent-yellow-500 cursor-pointer" value="${doc.id}" /></td>
                 <td class="p-3 text-gray-500 font-mono">${serialNumber}</td>
                 <td class="p-3">${data.name || '-'}</td>
+                <td class="p-3"><span class="text-xs text-yellow-500 bg-yellow-900/30 px-2 py-1 rounded border border-yellow-500/20">${data.category || 'N/A'}</span></td>
                 <td class="p-3">${data.phone || '-'}</td>
                 <td class="p-3">${data.email || '-'}</td>
                 <td class="p-3">${agentDisplay}</td>
@@ -408,6 +412,7 @@
 
     async function addSingleLead() {
        const name = document.getElementById('single-name').value.trim();
+       const category = document.getElementById('single-category').value.trim();
        const phone = document.getElementById('single-phone').value.trim();
        const email = document.getElementById('single-email').value.trim();
 
@@ -416,6 +421,7 @@
        try {
           await db.collection('leads').add({
              name: name,
+             category: category,
              phone: phone,
              email: email,
              status: "Unassigned",
@@ -424,6 +430,7 @@
              createdAt: firebase.firestore.FieldValue.serverTimestamp()
           });
           document.getElementById('single-name').value = '';
+          document.getElementById('single-category').value = '';
           document.getElementById('single-phone').value = '';
           document.getElementById('single-email').value = '';
        } catch (err) {
