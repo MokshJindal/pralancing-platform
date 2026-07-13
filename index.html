@@ -1130,11 +1130,23 @@
       let currentUser = null;
 
       // Listen to Auth State Changes
-      auth.onAuthStateChanged((user) => {
+      auth.onAuthStateChanged(async (user) => {
         const authBanner = document.getElementById("auth-gate-banner");
         const privateContent = document.getElementById("private-content");
         
         if (user) {
+          // CHECK BAN STATUS
+          try {
+             const banDoc = await db.collection('banned_users').doc(user.email.toLowerCase()).get();
+             if (banDoc.exists) {
+                alert("Access Denied: Your account has been suspended by the administrator.");
+                await auth.signOut();
+                return;
+             }
+          } catch (e) {
+             console.error("Error checking ban status", e);
+          }
+
           currentUser = user;
           if(authBanner) authBanner.classList.add("hidden");
           if(privateContent) privateContent.classList.remove("hidden");
