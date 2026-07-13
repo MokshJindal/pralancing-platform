@@ -104,23 +104,32 @@
         <div class="md:col-span-3 bg-[#1f150d] rounded-lg border border-yellow-500/30 overflow-hidden flex flex-col h-[780px]">
            <div class="p-4 border-b border-yellow-500/30 flex justify-between items-center bg-[#2b1b10]">
               <h3 class="font-bold"><i class="fa-solid fa-database text-yellow-500 mr-2"></i> All Leads Database</h3>
-              <div class="text-xs text-gray-400">Live Syncing</div>
+              <div class="flex items-center gap-4">
+                 <div class="flex items-center gap-2">
+                    <input type="text" id="bulk-range" placeholder="e.g. 1-50" class="w-24 p-1 bg-[#1f150d] border border-red-500/30 rounded text-xs focus:outline-none focus:border-red-500 text-center" />
+                    <button onclick="deleteRange()" class="px-2 py-1 bg-red-600 hover:bg-red-500 text-white rounded text-xs transition">Delete Range</button>
+                 </div>
+                 <button onclick="deleteSelected()" class="px-2 py-1 bg-red-800 hover:bg-red-700 text-white rounded text-xs transition border border-red-600">Delete Selected</button>
+                 <div class="text-xs text-gray-400 border-l border-yellow-500/30 pl-4">Live Syncing</div>
+              </div>
            </div>
            
            <div class="overflow-auto flex-1 p-0">
               <table class="w-full text-left text-sm whitespace-nowrap">
                  <thead class="sticky top-0 bg-[#3b2919] z-10 border-b border-yellow-500/50">
                     <tr>
+                       <th class="p-3 w-10 text-center"><input type="checkbox" id="select-all" onclick="toggleSelectAll()" class="accent-yellow-500 cursor-pointer" /></th>
+                       <th class="p-3 w-10">#</th>
                        <th class="p-3">Name</th>
                        <th class="p-3">Phone</th>
                        <th class="p-3">Email</th>
-                       <th class="p-3 w-56">Agent Assignment</th>
+                       <th class="p-3 w-64">Agent Assignment</th>
                        <th class="p-3">Status</th>
                        <th class="p-3 text-center">Actions</th>
                     </tr>
                  </thead>
                  <tbody id="master-table-body">
-                    <tr><td colspan="6" class="p-6 text-center text-gray-400">Loading data...</td></tr>
+                    <tr><td colspan="8" class="p-6 text-center text-gray-400">Loading data...</td></tr>
                  </tbody>
               </table>
            </div>
@@ -255,16 +264,24 @@
        });
     }
 
+    // Global variable to map serial numbers to doc IDs
+    let currentRenderedDocs = [];
+
     function renderDocs(snapshot) {
         const tbody = document.getElementById('master-table-body');
         if (snapshot.empty) {
-            tbody.innerHTML = '<tr><td colspan="6" class="p-6 text-center text-gray-400">No leads found in database.</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="8" class="p-6 text-center text-gray-400">No leads found in database.</td></tr>';
+            currentRenderedDocs = [];
             return;
         }
 
         let html = '';
+        currentRenderedDocs = [];
+        let serialNumber = 1;
+
         snapshot.docs.forEach(doc => {
             const data = doc.data();
+            currentRenderedDocs.push({ id: doc.id, serial: serialNumber });
             
             let statusBadge = '<span class="px-2 py-1 bg-gray-800 text-gray-300 rounded text-xs border border-gray-600">Unassigned</span>';
             if (data.status === 'Assigned') statusBadge = '<span class="px-2 py-1 bg-blue-900/50 text-blue-300 rounded text-xs border border-blue-500">Assigned (Pending)</span>';
@@ -272,25 +289,119 @@
             if (data.status === 'Yellow') statusBadge = '<span class="px-2 py-1 bg-yellow-900/50 text-yellow-300 rounded text-xs border border-yellow-500">Yellow (Call Back)</span>';
             if (data.status === 'Green') statusBadge = '<span class="px-2 py-1 bg-green-900/50 text-green-300 rounded text-xs border border-green-500">Green (Interested)</span>';
 
+            let agentDisplay = `
+               <div class="flex items-center gap-2" id="agent-display-${doc.id}">
+                  <span class="text-yellow-200 truncate w-32" title="${data.assignedTo || 'None'}">${data.assignedTo || 'Unassigned'}</span>
+                  <button onclick="toggleAgentEdit('${doc.id}')" class="text-xs text-gray-400 hover:text-white" title="Re-assign Agent"><i class="fa-solid fa-pen"></i></button>
+               </div>
+               <div class="hidden items-center gap-2" id="agent-edit-${doc.id}">
+                  <input type="email" id="assign-${doc.id}" value="${data.assignedTo || ''}" placeholder="Email" class="w-32 p-1 bg-[#2b1b10] border border-yellow-500/30 rounded text-xs focus:outline-none focus:border-yellow-500" />
+                  <button onclick="assignLead('${doc.id}')" class="px-2 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded text-xs transition">Set</button>
+                  <button onclick="toggleAgentEdit('${doc.id}')" class="text-xs text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+               </div>
+            `;
+
             html += `
             <tr class="border-b border-yellow-500/10 hover:bg-[#3b2919]/50">
+                <td class="p-3 text-center"><input type="checkbox" class="row-checkbox accent-yellow-500 cursor-pointer" value="${doc.id}" /></td>
+                <td class="p-3 text-gray-500 font-mono">${serialNumber}</td>
                 <td class="p-3">${data.name || '-'}</td>
                 <td class="p-3">${data.phone || '-'}</td>
                 <td class="p-3">${data.email || '-'}</td>
-                <td class="p-3">
-                   <div class="flex items-center gap-2">
-                      <input type="email" id="assign-${doc.id}" value="${data.assignedTo || ''}" placeholder="Agent Email" class="w-full p-1 bg-[#2b1b10] border border-yellow-500/30 rounded text-xs focus:outline-none focus:border-yellow-500" />
-                      <button onclick="assignLead('${doc.id}')" class="px-2 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded text-xs transition">Set</button>
-                   </div>
-                </td>
+                <td class="p-3">${agentDisplay}</td>
                 <td class="p-3">${statusBadge}</td>
                 <td class="p-3 text-center">
                    <button onclick="deleteLead('${doc.id}')" class="text-red-400 hover:text-red-300 transition" title="Delete Lead"><i class="fa-solid fa-trash"></i></button>
                 </td>
             </tr>
             `;
+            serialNumber++;
         });
         tbody.innerHTML = html;
+        document.getElementById('select-all').checked = false;
+    }
+
+    function toggleAgentEdit(leadId) {
+       const displayDiv = document.getElementById(`agent-display-${leadId}`);
+       const editDiv = document.getElementById(`agent-edit-${leadId}`);
+       if (displayDiv.classList.contains('hidden')) {
+          displayDiv.classList.remove('hidden');
+          editDiv.classList.add('hidden');
+          editDiv.classList.remove('flex');
+       } else {
+          displayDiv.classList.add('hidden');
+          editDiv.classList.remove('hidden');
+          editDiv.classList.add('flex');
+       }
+    }
+
+    function toggleSelectAll() {
+       const selectAll = document.getElementById('select-all').checked;
+       const checkboxes = document.querySelectorAll('.row-checkbox');
+       checkboxes.forEach(cb => cb.checked = selectAll);
+    }
+
+    async function deleteSelected() {
+       const checkboxes = document.querySelectorAll('.row-checkbox:checked');
+       if (checkboxes.length === 0) return alert("Please select at least one lead to delete.");
+       
+       if (!confirm(`Are you sure you want to delete ${checkboxes.length} selected leads?`)) return;
+
+       try {
+          const batch = db.batch();
+          let count = 0;
+          
+          checkboxes.forEach(cb => {
+             const docRef = db.collection('leads').doc(cb.value);
+             batch.delete(docRef);
+             count++;
+          });
+          
+          await batch.commit();
+          alert(`Successfully deleted ${count} leads.`);
+       } catch (err) {
+          console.error(err);
+          alert("Error during bulk delete: " + err.message);
+       }
+    }
+
+    async function deleteRange() {
+       const rangeStr = document.getElementById('bulk-range').value.trim();
+       if (!rangeStr.includes('-')) return alert("Please enter a valid range (e.g. 1-50)");
+       
+       const parts = rangeStr.split('-');
+       const start = parseInt(parts[0]);
+       const end = parseInt(parts[1]);
+
+       if (isNaN(start) || isNaN(end) || start > end || start < 1) {
+          return alert("Invalid range numbers.");
+       }
+
+       const docsToDelete = currentRenderedDocs.filter(d => d.serial >= start && d.serial <= end);
+       if (docsToDelete.length === 0) return alert("No leads found in that range.");
+
+       if (!confirm(`Are you sure you want to delete ${docsToDelete.length} leads (Range: ${start}-${end})?`)) return;
+
+       try {
+          const chunks = [];
+          for (let i = 0; i < docsToDelete.length; i += 500) {
+             chunks.push(docsToDelete.slice(i, i + 500));
+          }
+
+          for (let chunk of chunks) {
+             const batch = db.batch();
+             chunk.forEach(d => {
+                batch.delete(db.collection('leads').doc(d.id));
+             });
+             await batch.commit();
+          }
+          
+          document.getElementById('bulk-range').value = '';
+          alert(`Successfully deleted ${docsToDelete.length} leads in range ${start}-${end}.`);
+       } catch (err) {
+          console.error(err);
+          alert("Error deleting range: " + err.message);
+       }
     }
 
     // --- NEW ADMIN FEATURES ---
