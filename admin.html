@@ -222,24 +222,27 @@
                 let uploadedCount = 0;
                 for (let chunk of chunks) {
                    const batch = db.batch();
-                    chunk.forEach(row => {
-                       let extractedName = "";
-                       let extractedCategory = "";
-                       let extractedPhone = "";
-                       let extractedEmail = "";
+                     chunk.forEach(row => {
+                       let keys = Object.keys(row);
+                       // Smart Fallback: default to columns 1, 2, 3, 4 if no headers match
+                       let extractedName = keys.length > 0 ? row[keys[0]] : "";
+                       let extractedCategory = keys.length > 1 ? row[keys[1]] : "";
+                       let extractedPhone = keys.length > 2 ? row[keys[2]] : "";
+                       let extractedEmail = keys.length > 3 ? row[keys[3]] : "";
                        
                        for (const key in row) {
                           const lowerKey = key.toLowerCase().trim();
-                          if (!extractedName && (lowerKey.includes('name') || lowerKey.includes('business') || lowerKey.includes('company'))) {
+                          // Override fallbacks if we find matching headers
+                          if (lowerKey.includes('name') || lowerKey.includes('business') || lowerKey.includes('company') || lowerKey.includes('title') || lowerKey.includes('store')) {
                              extractedName = row[key];
                           }
-                          if (!extractedCategory && (lowerKey.includes('category') || lowerKey.includes('type') || lowerKey.includes('industry'))) {
+                          if (lowerKey.includes('category') || lowerKey.includes('type') || lowerKey.includes('industry') || lowerKey.includes('tag')) {
                              extractedCategory = row[key];
                           }
-                          if (!extractedPhone && (lowerKey.includes('phone') || lowerKey.includes('mobile') || lowerKey.includes('contact'))) {
+                          if (lowerKey.includes('phone') || lowerKey.includes('mobile') || lowerKey.includes('contact') || lowerKey.includes('number')) {
                              extractedPhone = row[key];
                           }
-                          if (!extractedEmail && (lowerKey.includes('email') || lowerKey.includes('mail'))) {
+                          if (lowerKey.includes('email') || lowerKey.includes('mail')) {
                              extractedEmail = row[key];
                           }
                        }
