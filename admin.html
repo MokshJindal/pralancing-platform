@@ -75,6 +75,29 @@
                <input type="file" id="csv-file" accept=".csv" class="block w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-yellow-500 file:text-[#120c08] hover:file:bg-yellow-400 mb-4 cursor-pointer" />
                <button onclick="uploadCSV()" id="upload-btn" class="btn-ancient w-full text-sm">Upload CSV</button>
                <p id="upload-status" class="text-xs text-center mt-3 text-yellow-400"></p>
+               
+               <div id="csv-mapping-section" class="hidden mt-4 pt-4 border-t border-yellow-500/30">
+                  <h4 class="text-sm font-bold text-yellow-500 mb-3">Map CSV Columns</h4>
+                  <div class="space-y-3 mb-4">
+                     <div>
+                        <label class="text-xs text-gray-400 block mb-1">Name / Business Name</label>
+                        <select id="map-name" class="w-full p-2 bg-[#2b1b10] border border-yellow-500/30 rounded text-xs focus:outline-none focus:border-yellow-500"></select>
+                     </div>
+                     <div>
+                        <label class="text-xs text-gray-400 block mb-1">Category (e.g., Gym)</label>
+                        <select id="map-category" class="w-full p-2 bg-[#2b1b10] border border-yellow-500/30 rounded text-xs focus:outline-none focus:border-yellow-500"></select>
+                     </div>
+                     <div>
+                        <label class="text-xs text-gray-400 block mb-1">Phone Number</label>
+                        <select id="map-phone" class="w-full p-2 bg-[#2b1b10] border border-yellow-500/30 rounded text-xs focus:outline-none focus:border-yellow-500"></select>
+                     </div>
+                     <div>
+                        <label class="text-xs text-gray-400 block mb-1">Email</label>
+                        <select id="map-email" class="w-full p-2 bg-[#2b1b10] border border-yellow-500/30 rounded text-xs focus:outline-none focus:border-yellow-500"></select>
+                     </div>
+                  </div>
+                  <button onclick="confirmCSVUpload()" id="confirm-upload-btn" class="w-full p-2 bg-green-700 hover:bg-green-600 text-white rounded font-bold transition text-sm">Confirm & Upload</button>
+               </div>
             </div>
 
             <!-- SINGLE LEAD SECTION -->
@@ -206,78 +229,102 @@
              const data = results.data;
              if(data.length === 0) {
                 alert("CSV is empty or invalid format.");
-                btn.disabled = false; btn.innerText = "Upload to Database";
+                btn.disabled = false; btn.innerText = "Upload CSV";
                 return;
              }
 
-             status.innerText = `Found ${data.length} rows. Uploading...`;
-             
-             try {
-                // Firestore limit is 500 writes per batch. We process in chunks.
-                const chunks = [];
-                for (let i = 0; i < data.length; i += 500) {
-                   chunks.push(data.slice(i, i + 500));
-                }
+             status.innerText = `Found ${data.length} rows. Please map columns below.`;
+             window.pendingCSVData = data;
+             const headers = Object.keys(data[0]);
 
-                let uploadedCount = 0;
-                for (let chunk of chunks) {
-                   const batch = db.batch();
-                     chunk.forEach(row => {
-                       let keys = Object.keys(row);
-                       // Smart Fallback: default to columns 1, 2, 3, 4 if no headers match
-                       let extractedName = keys.length > 0 ? row[keys[0]] : "";
-                       let extractedCategory = keys.length > 1 ? row[keys[1]] : "";
-                       let extractedPhone = keys.length > 2 ? row[keys[2]] : "";
-                       let extractedEmail = keys.length > 3 ? row[keys[3]] : "";
-                       
-                       for (const key in row) {
-                          const lowerKey = key.toLowerCase().trim();
-                          // Override fallbacks if we find matching headers
-                          if (lowerKey.includes('name') || lowerKey.includes('business') || lowerKey.includes('company') || lowerKey.includes('title') || lowerKey.includes('store')) {
-                             extractedName = row[key];
-                          }
-                          if (lowerKey.includes('category') || lowerKey.includes('type') || lowerKey.includes('industry') || lowerKey.includes('tag')) {
-                             extractedCategory = row[key];
-                          }
-                          if (lowerKey.includes('phone') || lowerKey.includes('mobile') || lowerKey.includes('contact') || lowerKey.includes('number')) {
-                             extractedPhone = row[key];
-                          }
-                          if (lowerKey.includes('email') || lowerKey.includes('mail')) {
-                             extractedEmail = row[key];
-                          }
-                       }
+             ['map-name', 'map-category', 'map-phone', 'map-email'].forEach(id => {
+                 const select = document.getElementById(id);
+                 select.innerHTML = '<option value="">-- Ignore --</option>';
+                 headers.forEach(h => {
+                     select.innerHTML += `<option value="${h}">${h}</option>`;
+                 });
+             });
 
-                       const docRef = db.collection('leads').doc();
-                       batch.set(docRef, {
-                          name: extractedName,
-                          category: extractedCategory,
-                          phone: extractedPhone,
-                          email: extractedEmail,
-                          status: "Unassigned",
-                          assignedTo: null,
-                          assignedName: null,
-                          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                       });
-                    });
-                   await batch.commit();
-                   uploadedCount += chunk.length;
-                   status.innerText = `Uploaded ${uploadedCount} / ${data.length}...`;
-                }
+             // Auto-select based on fuzzy match
+             headers.forEach(h => {
+                 const lower = h.toLowerCase().trim();
+                 if (lower.includes('name') || lower.includes('business') || lower.includes('company') || lower.includes('title') || lower.includes('store')) document.getElementById('map-name').value = h;
+                 if (lower.includes('category') || lower.includes('type') || lower.includes('industry') || lower.includes('tag')) document.getElementById('map-category').value = h;
+                 if (lower.includes('phone') || lower.includes('mobile') || lower.includes('contact') || lower.includes('number')) document.getElementById('map-phone').value = h;
+                 if (lower.includes('email') || lower.includes('mail')) document.getElementById('map-email').value = h;
+             });
 
-                status.innerText = "Upload Complete!";
-                status.classList.add("text-green-400");
-                fileInput.value = "";
-                setTimeout(() => { status.innerText = ""; status.classList.remove("text-green-400"); }, 3000);
+             // If no fuzzy match, fallback to indices
+             if(!document.getElementById('map-name').value && headers.length > 0) document.getElementById('map-name').value = headers[0];
+             if(!document.getElementById('map-category').value && headers.length > 1) document.getElementById('map-category').value = headers[1];
+             if(!document.getElementById('map-phone').value && headers.length > 2) document.getElementById('map-phone').value = headers[2];
+             if(!document.getElementById('map-email').value && headers.length > 3) document.getElementById('map-email').value = headers[3];
 
-             } catch (err) {
-                console.error(err);
-                alert("Upload failed. See console for details.");
-             }
-
-             btn.disabled = false;
-             btn.innerText = "Upload to Database";
+             document.getElementById('csv-mapping-section').classList.remove('hidden');
           }
        });
+    }
+
+    async function confirmCSVUpload() {
+       const data = window.pendingCSVData;
+       if(!data) return;
+
+       const nameField = document.getElementById('map-name').value;
+       const categoryField = document.getElementById('map-category').value;
+       const phoneField = document.getElementById('map-phone').value;
+       const emailField = document.getElementById('map-email').value;
+
+       const btn = document.getElementById('confirm-upload-btn');
+       const status = document.getElementById('upload-status');
+       
+       btn.disabled = true;
+       btn.innerText = "Uploading...";
+       status.innerText = `Uploading ${data.length} rows...`;
+
+       try {
+          const chunks = [];
+          for (let i = 0; i < data.length; i += 500) {
+             chunks.push(data.slice(i, i + 500));
+          }
+
+          let uploadedCount = 0;
+          for (let chunk of chunks) {
+             const batch = db.batch();
+             chunk.forEach(row => {
+                const docRef = db.collection('leads').doc();
+                batch.set(docRef, {
+                   name: nameField ? (row[nameField] || "") : "",
+                   category: categoryField ? (row[categoryField] || "") : "",
+                   phone: phoneField ? (row[phoneField] || "") : "",
+                   email: emailField ? (row[emailField] || "") : "",
+                   status: "Unassigned",
+                   assignedTo: null,
+                   assignedName: null,
+                   createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+             });
+             await batch.commit();
+             uploadedCount += chunk.length;
+             status.innerText = `Uploaded ${uploadedCount} / ${data.length}...`;
+          }
+
+          status.innerText = "Upload Complete!";
+          status.classList.add("text-green-400");
+          document.getElementById('csv-file').value = "";
+          document.getElementById('csv-mapping-section').classList.add('hidden');
+          document.getElementById('upload-btn').disabled = false;
+          document.getElementById('upload-btn').innerText = "Upload CSV";
+          btn.disabled = false;
+          btn.innerText = "Confirm & Upload";
+          
+          setTimeout(() => { status.innerText = ""; status.classList.remove("text-green-400"); }, 3000);
+
+       } catch (err) {
+          console.error(err);
+          alert("Upload failed. See console for details.");
+          btn.disabled = false;
+          btn.innerText = "Confirm & Upload";
+       }
     }
 
     function loadMasterTable() {
