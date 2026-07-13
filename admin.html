@@ -222,19 +222,40 @@
                 let uploadedCount = 0;
                 for (let chunk of chunks) {
                    const batch = db.batch();
-                   chunk.forEach(row => {
-                      const docRef = db.collection('leads').doc();
-                      batch.set(docRef, {
-                         name: row.Name || row.name || row["Client Name"] || "",
-                         category: row.Category || row.category || row["Business Category"] || "",
-                         phone: row.Phone || row.phone || row["Phone Number"] || "",
-                         email: row.Email || row.email || "",
-                         status: "Unassigned",
-                         assignedTo: null,
-                         assignedName: null,
-                         createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                      });
-                   });
+                    chunk.forEach(row => {
+                       let extractedName = "";
+                       let extractedCategory = "";
+                       let extractedPhone = "";
+                       let extractedEmail = "";
+                       
+                       for (const key in row) {
+                          const lowerKey = key.toLowerCase().trim();
+                          if (!extractedName && (lowerKey.includes('name') || lowerKey.includes('business') || lowerKey.includes('company'))) {
+                             extractedName = row[key];
+                          }
+                          if (!extractedCategory && (lowerKey.includes('category') || lowerKey.includes('type') || lowerKey.includes('industry'))) {
+                             extractedCategory = row[key];
+                          }
+                          if (!extractedPhone && (lowerKey.includes('phone') || lowerKey.includes('mobile') || lowerKey.includes('contact'))) {
+                             extractedPhone = row[key];
+                          }
+                          if (!extractedEmail && (lowerKey.includes('email') || lowerKey.includes('mail'))) {
+                             extractedEmail = row[key];
+                          }
+                       }
+
+                       const docRef = db.collection('leads').doc();
+                       batch.set(docRef, {
+                          name: extractedName,
+                          category: extractedCategory,
+                          phone: extractedPhone,
+                          email: extractedEmail,
+                          status: "Unassigned",
+                          assignedTo: null,
+                          assignedName: null,
+                          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                       });
+                    });
                    await batch.commit();
                    uploadedCount += chunk.length;
                    status.innerText = `Uploaded ${uploadedCount} / ${data.length}...`;
