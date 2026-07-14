@@ -365,11 +365,11 @@
 
             let agentDisplay = `
                <div class="flex items-center gap-2" id="agent-display-${doc.id}">
-                  <span class="text-yellow-200 truncate w-32" title="${data.assignedTo || 'None'}">${data.assignedTo || 'Unassigned'}</span>
+                  <span class="text-yellow-200 truncate w-32" title="${data.assignedName || data.assignedTo || 'None'}">${data.assignedName || data.assignedTo || 'Unassigned'}</span>
                   <button onclick="toggleAgentEdit('${doc.id}')" class="text-xs text-gray-400 hover:text-white" title="Re-assign Agent"><i class="fa-solid fa-pen"></i></button>
                </div>
                <div class="hidden items-center gap-2" id="agent-edit-${doc.id}">
-                  <input type="email" id="assign-${doc.id}" value="${data.assignedTo || ''}" placeholder="Email" class="w-32 p-1 bg-[#2b1b10] border border-yellow-500/30 rounded text-xs focus:outline-none focus:border-yellow-500" />
+                  <input type="email" id="assign-${doc.id}" value="${data.assignedName || data.assignedTo || ''}" placeholder="Email" class="w-32 p-1 bg-[#2b1b10] border border-yellow-500/30 rounded text-xs focus:outline-none focus:border-yellow-500" />
                   <button onclick="assignLead('${doc.id}')" class="px-2 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded text-xs transition">Set</button>
                   <button onclick="toggleAgentEdit('${doc.id}')" class="text-xs text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
                </div>

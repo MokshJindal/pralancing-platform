@@ -1188,8 +1188,8 @@
           snapshot.docs.forEach(doc => {
              batch.update(doc.ref, { 
                 status: 'Assigned',
-                assignedTo: currentUser.uid,
-                assignedName: currentUser.email || currentUser.displayName || 'Unknown Agent'
+                assignedTo: currentUser.email,
+                assignedName: currentUser.displayName || 'Unknown Agent'
              });
           });
 
@@ -1211,7 +1211,7 @@
          container.innerHTML = '<div class="text-center p-4 text-gray-400 m-auto">Syncing database...</div>';
 
          db.collection('leads')
-           .where('assignedTo', '==', currentUser.uid)
+           .where('assignedTo', '==', currentUser.email)
            .onSnapshot(snapshot => {
               if (snapshot.empty) {
                  container.innerHTML = `
